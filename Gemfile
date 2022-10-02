@@ -68,3 +68,4 @@ gem 'jquery-rails'
   gem 'pry-stack_explorer'
   
 gem 'bootstrap-sass'
+gem 'gon'

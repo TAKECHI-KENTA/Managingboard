@@ -15,9 +15,7 @@
             <p class="text-gray kpi-highlight">3,479 千円</p>
             <p class="text-gray">現在の残高</p>
           </div>
-          <div class="kpi-graph">
-            <p>グラフエリア</p>
-          </div>
+          <div id="tester" class="kpi-graph"></div>
         </div>
       </div>
       <div class="col-md-4">
@@ -122,4 +120,33 @@
     </div>    
 
   </div>
+  <%= javascript_include_tag 'plotly-latest.min' %>
+    <script>
+	            TESTER = document.getElementById('tester');
+	            var trace1 = {
+                x: ['10月', '11月', '12月'],
+                y: [20, 14, 23],
+                name: '収入',
+                type: 'bar'
+                };
+
+              var trace2 = {
+                x: ['10月', '11月', '12月'],
+                y: [12, 18, 29],
+                name: '支出',
+                type: 'bar'
+                };
+
+              var data = [trace1, trace2];
+              var layout = {barmode: 'group',
+                legend: {
+                 x: 0.5,
+                 xanchor: 'center',
+                 y: -0.2,
+                 yanchor: 'bottom',
+                 orientation: 'h'
+                }
+              };
+              Plotly.newPlot('tester', data, layout);
+    </script>
 </div>  
