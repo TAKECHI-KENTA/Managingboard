@@ -6,14 +6,14 @@
     <h1 class="company-name text-gray">STC合同会社</h1>
     <div class="row">
       <div class="col-md-4">
-        <div class="kpi-card">
+        <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">資金収支</h2>
             <h3>選択ボタン</h3>
           </div>
           <div class="kpi-summary">
             <p class="text-gray kpi-highlight">3,479 千円</p>
-            <p class="text-gray">現在の残高</p>
+            <p class="text-gray kpi-discrption">現在の残高</p>
           </div>
           <div class="kpi-graph">
             <div id="tester"></div>
@@ -21,35 +21,39 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="kpi-card">
+        <div class="kpi-card-2">
           <div class="kpi-title">
             <h2 class="text-gray">未決済内訳</h2>
             <h3>期間の選択</h3>
           </div>
-          <div class="kpi-graph text-gray">
+          <div class="kpi-discrption text-gray">
             <p>1,289千円の未収</p>
-            <p>グラフエリア</p>
           </div>
-          <div class="kpi-graph text-gray">
+          <div class="kpi-graph-2">
+             <div id="receivable_chart"></div>
+          </div>
+          <div class="kpi-discrption text-gray">
             <p>1,543千円の未払</p>
-            <p>グラフエリア</p>
+          </div>
+          <div class="kpi-graph">
+            <div id="payable_chart"></div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="kpi-card">
+        <div class="kpi-card-3">
           <div class="kpi-title">
             <h2 class="text-gray">口座残高</h2>
           </div>
-          <div class="kpi-graph text-gray">
+          <div class="text-gray">
             <h2>銀行</h2>
             <table>
               <tr>
-                <td>同期口座の残高合計</td>
+                <td>同期口座の残高合計　　　</td>
                 <td>6,530千円</td>
               </tr>
               <tr>
-                <td>freee上の帳簿残高</td>
+                <td>freee上の帳簿残高　　　</td>
                 <td>6,746千円</td>
               </tr>
             </table>
@@ -58,11 +62,11 @@
             <h2>クレジットカード</h2>
             <table>
               <tr>
-                <td>同期口座の残高合計</td>
+                <td>同期口座の残高合計　　　</td>
                 <td>2,499千円</td>
               </tr>
               <tr>
-                <td>freee上の帳簿残高</td>
+                <td>freee上の帳簿残高　　　</td>
                 <td>2,499千円</td>
               </tr>
             </table>
@@ -73,49 +77,44 @@
 
     <div class="row">
       <div class="col-md-4">
-        <div class="kpi-card">
+        <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">営業損益</h2>
             <h3>期間の選択</h3>
           </div>
           <div class="kpi-summary">
-            <h1 class="text-gray">▲12,459千円</h1>
+            <p class="text-gray kpi-highlight">▲12,459千円</p>
           </div>
-          <div class="kpi-graph text-gray">
-            <p>6,459千円の収益</p>
-            <p>グラフエリア</p>
-          </div>
-          <div class="kpi-graph text-gray">
-            <p>18,000千円の費用</p>
-            <p>グラフエリア</p>
+          <div class="kpi-graph-1">
+            <div id="operating_profit_chart"></div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="kpi-card">
+        <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">収益</h2>
             <h3>期間の選択</h3>
           </div>
             <div class="kpi-summary">
-            <h1 class="text-gray">6,459千円</h1>
+            <p class="text-gray kpi-highlight">6,459 千円</p>
           </div>
-          <div class="kpi-graph">
-            <p>グラフエリア</p>
+          <div class="kpi-graph-1">
+            <div id="revenue_chart"></div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="kpi-card">
+        <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">費用</h2>
             <h3>期間の選択</h3>
           </div>
             <div class="kpi-summary">
-            <h1 class="text-gray">18,000千円</h1>
+            <p class="text-gray kpi-highlight">18,000 千円</p>
           </div>
-          <div class="kpi-graph">
-            <p>グラフエリア</p>
+          <div class="kpi-graph-1">
+            <div id="cost_chart"></div>
           </div>
         </div>
       </div>
@@ -160,12 +159,13 @@
                 legend: {
                   x: 0.5,
                   xanchor: 'center',
-                  y: -0.3,
+                  y: -0.4,
                   yanchor: 'bottom',
                   orientation: 'h',
                   font: {
                     size: 10
-                  }
+                  },
+                  itemclick: 'toggleothers'
                 },
                 margin: {
                   b: 0,
@@ -173,9 +173,259 @@
                   r: 0,
                   t: 10
                 },
-                height: 195
+                height: 175
               };
-              var config = {responsive: true};
+              var config = {
+                responsive: true,
+                displayModeBar: false
+              };
               Plotly.newPlot('tester', data, layout, config);
+    </script>
+    <script>
+      RECIEVABLE_CHART = document.getElementById('receivable_chart');
+      var x1Value = [10];
+      var x2Value = [1279];
+      var yValue = [''];
+      var trace1 = {
+        x: x1Value,
+        y: yValue,
+        name: '期限到来+未設定',
+        type: 'bar',
+        orientation: 'h',
+        text: x1Value.map(String),
+        textposition: 'auto',
+        insidetextanchor: 'middle',
+        hoverinfo: 'x',
+        marker: {
+          color: 'rgba(250, 100, 20, 1)'
+          }
+      };
+      var trace2 = {
+        x: x2Value,
+        y: yValue,
+        name: '期限未到来',
+        type: 'bar',
+        orientation: 'h',
+        text: x2Value.map(String),
+        textposition: 'auto',
+        insidetextanchor: 'middle',
+        hoverinfo: 'x',
+        marker: {
+          color: 'rgba(217, 217, 217, 1)'
+          }
+      };
+      var data = [trace1, trace2];
+      var layout = {
+        barmode: 'stack',
+        legend: {
+                  x: 0.5,
+                  xanchor: 'center',
+                  y: -2,
+                  yanchor: 'bottom',
+                  orientation: 'h',
+                  font: {
+                    size: 10
+                  },
+                  traceorder: 'normal',
+                  itemclick: 'toggleothers'
+        },
+        xaxis: {
+          showgrid: false,
+          showticklabels: false
+        },
+        margin: {
+          t: 0,
+          r: 0,
+          b: 0,
+          l: 20
+        },
+        height: 87
+      };
+      var config = {
+        responsive: true,
+        displayModeBar: false
+      };
+      Plotly.newPlot('receivable_chart', data, layout, config)
+    </script>
+    <script>
+      RECIEVABLE_CHART = document.getElementById('payable_chart');
+      var x1Value = [543];
+      var x2Value = [1000];
+      var yValue = [''];
+      var trace1 = {
+        x: x1Value,
+        y: yValue,
+        name: '期限到来+未設定',
+        type: 'bar',
+        orientation: 'h',
+        text: x1Value.map(String),
+        textposition: 'auto',
+        insidetextanchor: 'middle',
+        hoverinfo: 'x',
+        marker: {
+          color: 'rgba(250, 100, 20, 1)'
+          }
+      };
+      var trace2 = {
+        x: x2Value,
+        y: yValue,
+        name: '期限未到来',
+        type: 'bar',
+        orientation: 'h',
+        text: x2Value.map(String),
+        textposition: 'auto',
+        insidetextanchor: 'middle',
+        hoverinfo: 'x',
+        marker: {
+          color: 'rgba(217, 217, 217, 1)'
+          }
+      };
+      var data = [trace1, trace2];
+      var layout = {
+        barmode: 'stack',
+        legend: {
+                  x: 0.5,
+                  xanchor: 'center',
+                  y: -2,
+                  yanchor: 'bottom',
+                  orientation: 'h',
+                  font: {
+                    size: 10
+                  },
+                  traceorder: 'normal',
+                  itemclick: 'toggleothers'
+        },
+        xaxis: {
+          showgrid: false,
+          showticklabels: false
+        },
+        margin: {
+          t: 0,
+          r: 0,
+          b: 0,
+          l: 20
+        },
+        height: 87
+      };
+      var config = {
+        responsive: true,
+        displayModeBar: false
+      };
+      Plotly.newPlot('payable_chart', data, layout, config)
+    </script>
+    <script>
+      OPERATING_PROFIT_CHART = document.getElementById('operating_profit_chart');
+      var xValue = ['8月', '9月', '10月','11月','12月','1月'];
+      var yValue = [-1328, -4350, 345, 6054, -120 ,-12459];
+      var trace1 = {
+        x: xValue,
+        y: yValue,
+        name: '営業損益',
+        type: 'scatter',
+        mode: 'lines+markers',
+        textposition: 'bottom center',
+        hoverinfo: 'x+y'
+      };
+
+      var data = [trace1];
+
+      var layout = {
+        showlegend: false,
+        yaxis: {
+          rangemode: 'tozero',
+          autorange: true
+          },
+        margin: {
+          t: 5,
+          r: 25,
+          b: 25,
+          l: 25
+        },
+        height: 175
+      };
+      
+      var config = {
+        responsive: true,
+        displayModeBar: false
+      };
+      
+      Plotly.newPlot('operating_profit_chart', data, layout, config)
+    </script>
+    <script>
+      REVENUE_CHART = document.getElementById('revenue_chart');
+      var xValue = ['8月','9月','10月','11月','12月','1月'];
+      var yValue = [3323,1895,7543,8904,9732,6459];
+
+      var trace1 = {
+        x: xValue,
+        y: yValue,
+        name: '収益',
+        type: 'scatter',
+        mode: 'lines+markers',
+        textposition: 'bottom center',
+        hoverinfo: 'x+y'
+      };
+
+      var data = [trace1];
+
+      var layout = {
+        showlegend: false,
+        yaxis: {
+          rangemode: 'tozero',
+          autorange: true
+          },
+        margin: {
+          t: 5,
+          r: 25,
+          b: 25,
+          l: 25
+        },
+        height: 175
+      };
+      
+      var config = {
+        responsive: true,
+        displayModeBar: false
+      };
+      
+      Plotly.newPlot('revenue_chart', data, layout, config)
+    </script>
+    <script>
+      var allValues = [19, 26, 55, 8, 24, 3, 4, 41];
+      var allLabels = ['売上原価', '販売手数料', '地代家賃','水道光熱費','旅費交通費','交際費','雑費','その他'];
+
+      var data = [{
+        values: allValues,
+        labels: allLabels,
+        type: 'pie',
+        textposition: 'inside',
+        insidetextanchor: 'middle',
+        hoverinfo: 'label+value+percent',
+        direction: 'clockwise',
+        sort: true
+      }];
+
+      var layout = {
+        legend: {
+          itemclick: false,
+          font: {
+            size: 10
+          }
+        },
+        margin: {
+          t: 0,
+          r: 5,
+          b: 15,
+          l: 15
+        },
+        height: 175
+      };
+
+      var config = {
+        responsive: true,
+        displayModeBar: false
+      };
+
+      Plotly.newPlot('cost_chart', data, layout, config);
     </script>
 </div>  
