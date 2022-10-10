@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 //const {connect, disconnect} = require('../../../../db/mongo');
-const {request} = require('./auth/gettoken') //gettoken.jsの結果を渡す方法がこれでいいのか？
+const {request} = require('./auth/gettoken'); //gettoken.jsの結果を渡す方法がこれでいいのか？
 
 exports.getCompanies = async () => {
   //  await connect();
@@ -14,5 +14,9 @@ exports.getCompanies = async () => {
     const responseJson = await response.json();
     return responseJson.companies;
 };
+
+$(function() {
+    $("#Company_name").text("jQuery稼働テスト")
+  })
 
 // JSON形式のファイルから特定の値だけを取り出し、htmlに渡す方法

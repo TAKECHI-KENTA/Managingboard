@@ -19,5 +19,7 @@
 //= require jquery_ujs
 
 //= require plotly-latest.min
-//= require_tree .
+
 //= require 'Front/graph.js'
+//= require 'company/getcompany.js'
+//= require_tree .
