@@ -63,6 +63,7 @@ request(options, function (error, response, body) {
   refresh_token = response.refresh_token;
 });
 
+// 以下、メンタリング中に記載//
 export const getToken = request(options, function (error, response, body) {
   if (error) throw new Error(error);
   console.log(body);
