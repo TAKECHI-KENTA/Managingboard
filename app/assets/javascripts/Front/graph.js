@@ -1,132 +1,5 @@
-<div class="index-wrapper">
-  <div class="menu-bar">
-    メニュー
-  </div>
-  <div class="container">
-    <!-- <h1 class="company-name text-gray">STC合同会社</h1> -->
-    <div id="Company_name" class="company-name text-gray">STC合同会社
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="kpi-card-1">
-          <div class="kpi-title">
-            <h2 class="text-gray">資金収支</h2>
-            <h3>選択ボタン</h3>
-          </div>
-          <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">3,479 千円</p>
-            <p class="text-gray kpi-discrption">現在の残高</p>
-          </div>
-          <div class="kpi-graph">
-            <div id="tester"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="kpi-card-2">
-          <div class="kpi-title">
-            <h2 class="text-gray">未決済内訳</h2>
-            <h3>期間の選択</h3>
-          </div>
-          <div class="kpi-discrption text-gray">
-            <p>1,289千円の未収</p>
-          </div>
-          <div class="kpi-graph-2">
-             <div id="receivable_chart"></div>
-          </div>
-          <div class="kpi-discrption text-gray">
-            <p>1,543千円の未払</p>
-          </div>
-          <div class="kpi-graph">
-            <div id="payable_chart"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="kpi-card-3">
-          <div class="kpi-title">
-            <h2 class="text-gray">口座残高</h2>
-          </div>
-          <div class="text-gray">
-            <h2>銀行</h2>
-            <table>
-              <tr>
-                <td>同期口座の残高合計　　　</td>
-                <td>6,530千円</td>
-              </tr>
-              <tr>
-                <td>freee上の帳簿残高　　　</td>
-                <td>6,746千円</td>
-              </tr>
-            </table>
-          </div>
-          <div class="kpi-graph text-gray">
-            <h2>クレジットカード</h2>
-            <table>
-              <tr>
-                <td>同期口座の残高合計　　　</td>
-                <td>2,499千円</td>
-              </tr>
-              <tr>
-                <td>freee上の帳簿残高　　　</td>
-                <td>2,499千円</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-4">
-        <div class="kpi-card-1">
-          <div class="kpi-title">
-            <h2 class="text-gray">営業損益</h2>
-            <h3>期間の選択</h3>
-          </div>
-          <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">▲12,459千円</p>
-          </div>
-          <div class="kpi-graph-1">
-            <div id="operating_profit_chart"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="kpi-card-1">
-          <div class="kpi-title">
-            <h2 class="text-gray">収益</h2>
-            <h3>期間の選択</h3>
-          </div>
-            <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">6,459 千円</p>
-          </div>
-          <div class="kpi-graph-1">
-            <div id="revenue_chart"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="kpi-card-1">
-          <div class="kpi-title">
-            <h2 class="text-gray">費用</h2>
-            <h3>期間の選択</h3>
-          </div>
-            <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">18,000 千円</p>
-          </div>
-          <div class="kpi-graph-1">
-            <div id="cost_chart"></div>
-          </div>
-        </div>
-      </div>
-    </div>    
-
-  </div>
- 
-  
-    <script>
-	            TESTER = document.getElementById('tester');
+// 資金収支//
 	            var xValue = ['10月', '11月', '12月','1月'];
 	            var y1Value = [20, 14, 23, 25];
 	            var y2Value = [12, 18, 29, 18];
@@ -183,9 +56,10 @@
                 displayModeBar: false
               };
               Plotly.newPlot('tester', data, layout, config);
-    </script>
-    <script>
-      RECIEVABLE_CHART = document.getElementById('receivable_chart');
+
+
+   
+//  未決済内訳      
       var x1Value = [10];
       var x2Value = [1279];
       var yValue = [''];
@@ -249,9 +123,9 @@
         displayModeBar: false
       };
       Plotly.newPlot('receivable_chart', data, layout, config)
-    </script>
-    <script>
-      RECIEVABLE_CHART = document.getElementById('payable_chart');
+ 
+ 
+ // 未決済内訳（支払）
       var x1Value = [543];
       var x2Value = [1000];
       var yValue = [''];
@@ -315,9 +189,9 @@
         displayModeBar: false
       };
       Plotly.newPlot('payable_chart', data, layout, config)
-    </script>
-    <script>
-      OPERATING_PROFIT_CHART = document.getElementById('operating_profit_chart');
+
+
+// 営業利益
       var xValue = ['8月', '9月', '10月','11月','12月','1月'];
       var yValue = [-1328, -4350, 345, 6054, -120 ,-12459];
       var trace1 = {
@@ -353,9 +227,9 @@
       };
       
       Plotly.newPlot('operating_profit_chart', data, layout, config)
-    </script>
-    <script>
-      REVENUE_CHART = document.getElementById('revenue_chart');
+
+
+// 収益内訳
       var xValue = ['8月','9月','10月','11月','12月','1月'];
       var yValue = [3323,1895,7543,8904,9732,6459];
 
@@ -392,8 +266,9 @@
       };
       
       Plotly.newPlot('revenue_chart', data, layout, config)
-    </script>
-    <script>
+ 
+ 
+ //  費用内訳
       var allValues = [19, 26, 55, 8, 24, 3, 4, 41];
       var allLabels = ['売上原価', '販売手数料', '地代家賃','水道光熱費','旅費交通費','交際費','雑費','その他'];
 
@@ -430,6 +305,4 @@
       };
 
       Plotly.newPlot('cost_chart', data, layout, config);
-    </script>
     
-</div>  

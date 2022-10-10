@@ -69,3 +69,7 @@ gem 'jquery-rails'
   
 gem 'bootstrap-sass'
 gem 'gon'
+
+gem 'freee-api'
+
+gem 'dotenv-rails'
