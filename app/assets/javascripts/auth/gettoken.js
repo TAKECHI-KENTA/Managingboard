@@ -82,3 +82,7 @@ export const refresToken = request(options, function (error, response, body) {
   refresh_token = response.refresh_token;
   return access_token
 });
+
+$(function() {
+    $("#Company_name").text("xxx")
+  })

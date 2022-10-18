@@ -120,7 +120,28 @@
           </div>
         </div>
       </div>
-    </div>    
+    </div> 
+    <div>
+      <a id="modal-open" class="modal-btn">+</a>
+    </div>
+    <div id="modal-overlay">
+      <div id="modal-content">
+        <%= form_for @comment do |f| %>
+          <div class="comment-group">　<%# css未了(以下、このdiv内全て同じ) %>
+            <%= f.label :tention %>
+            <%= f.text_field :tention class: 'comment-tention' %>.  <%# select使いたい %>
+          </div>
+          <div class="comment-group">
+            <%= f.label :description %>
+            <%= f.text_area :description class: 'comment-description' %>
+          </div>
+          <div class="comment-group">
+            <%= f.label :title %>
+            <%= f.text_area :title class: 'comment-title' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
 
   </div>
  

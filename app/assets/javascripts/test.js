@@ -7,6 +7,8 @@ $(function() {
   
 */
 
-$(function() {
+/*$(function() {
     $("#Company_name").text("jQuery稼働テスト")
   })
+  */
+  
