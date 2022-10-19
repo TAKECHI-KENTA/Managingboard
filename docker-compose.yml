@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/managing_board
+      - tmp-data:/managing_board/tmp
+    ports:
+      - "3003:3000"
+
+volumes:
+  tmp-data:

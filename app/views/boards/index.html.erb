@@ -4,7 +4,7 @@
   </div>
   <div class="container">
     <!-- <h1 class="company-name text-gray">STC合同会社</h1> -->
-    <div id="Company_name" class="company-name text-gray">STC合同会社
+    <div id="Company_name" class="company-name text-gray"><%= @companies&.first['display_name'] %>
     </div>
     <div class="row">
       <div class="col-md-4">
@@ -120,11 +120,11 @@
           </div>
         </div>
       </div>
-    </div>    
+    </div>
 
   </div>
- 
-  
+
+
     <script>
 	            TESTER = document.getElementById('tester');
 	            var xValue = ['10月', '11月', '12月','1月'];
@@ -346,12 +346,12 @@
         },
         height: 175
       };
-      
+
       var config = {
         responsive: true,
         displayModeBar: false
       };
-      
+
       Plotly.newPlot('operating_profit_chart', data, layout, config)
     </script>
     <script>
@@ -385,12 +385,12 @@
         },
         height: 175
       };
-      
+
       var config = {
         responsive: true,
         displayModeBar: false
       };
-      
+
       Plotly.newPlot('revenue_chart', data, layout, config)
     </script>
     <script>
@@ -431,5 +431,5 @@
 
       Plotly.newPlot('cost_chart', data, layout, config);
     </script>
-    
-</div>  
+
+</div>
