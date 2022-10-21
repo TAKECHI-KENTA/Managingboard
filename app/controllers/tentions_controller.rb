@@ -1,0 +1,2 @@
+class TentionsController < ApplicationController
+end

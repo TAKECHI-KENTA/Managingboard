@@ -1,0 +1,27 @@
+<div class="comment-new-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <%= form_for comment do |f| %>
+          <div class="comment-group">
+            <%= f.label :ご機嫌, class: 'form-label text-gray' %>
+            <%= f.collection_select(:tention_id, tention, :id, :examination, {include_blank: true}, {class: 'form-control-select form-control'}) %> 
+          </div>
+          <div class="comment-group">
+            <%= f.label :今日の感想, class: 'form-label text-gray' %>
+            <%= f.text_area :description, class: 'form-control-description form-control' %>
+          </div>
+          <div class="comment-group">
+            <%= f.label :タイトル, class: 'form-label text-gray' %>
+            <%= f.text_field :title, class: 'form-control-title form-control' %>
+          </div>
+          <div id="modal-close">
+            <%# if logged_in? %>  <%# ログイン機能未実装 %>
+              <%= f.submit '投稿', class: 'btn' %>
+            <%# end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

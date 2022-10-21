@@ -1,0 +1,2 @@
+class Tention < ApplicationRecord
+end

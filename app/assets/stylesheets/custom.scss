@@ -104,6 +104,32 @@
   }
 }
 
+.comment-new-wrapper {
+  padding-top: 10px;  
+  .form-control-select {
+    height: 30px;
+    width: 120px;
+  }
+  .form-control-description {
+    height: 75px;
+  }
+
+  .form-control-title {
+    height: 30px;
+  }
+
+  .comment-group {
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    margin-top: 10px;
+    background-color: #285ac8;
+    color: white;
+  }
+}
+
+
 .text-gray {
   color:  #323232;
 }
@@ -117,7 +143,30 @@ h3 {
   font-size: 16px;
 }
 
-.modal-btn {
-  color:  #323232;
-  font-size: 54px;
+#modal-overlay {
+  display: none;   /* デフォルトは非表示 */
+  z-index: 1;      /* モーダルウィンドウと通常画面の間に表示 */
+  position: fixed; /* 表示を固定してスクロールで動かさない */
+  top: 0;          /* 全画面表示なので0 */
+  left: 0;         /* 全画面表示なので0 */
+  width: 100%;     /* 全画面表示なので100% */
+  height: 100%;    /* 全画面表示なので100%。スマートフォンでの表示対応する場合は120%に */
+  background-color: rgba(0,0,0,0.25); /* 背景を黒の半透明に */
+}
+
+#modal-window {
+  display: none;
+  z-index: 2;      /* 最前面に表示 */
+  position: absolute;
+  top: 30%;        /* 画面中央に表示 */
+  left: 70%;       /* 画面中央に表示 */
+  transform: translate(-50%, -50%); /* モーダルウィンドウの大きさ分中央にずらす */
+  /* 以下はモーダルウィンドウの外観。ご自由に */
+  width: 300px;
+  heigt: 500px;
+  margin: 1.5em auto 0;
+  padding: 10px 0 10px 0;
+  
+  border-radius: 5px;
+  background: #fff;
 }
