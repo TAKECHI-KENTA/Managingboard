@@ -2,14 +2,22 @@
   width: 100vw;
 }
 
-.company-name {
-  font-size: 36px;
-  margin-top: 15px;
-}
 .menu-bar {
   background-color: blue;
   color: white;
   height: 50px;
+}
+
+
+.company-name {
+  font-size: 36px;
+  margin-top: 15px;
+}
+
+.btn {
+  margin-top: 23px;
+  background-color: #285ac8;
+  color: white;
 }
 
 .kpi-card-1 {
@@ -122,11 +130,6 @@
     margin-bottom: 20px;
   }
   
-  .btn {
-    margin-top: 10px;
-    background-color: #285ac8;
-    color: white;
-  }
 }
 
 
@@ -143,6 +146,13 @@ h3 {
   font-size: 16px;
 }
 
+.fixed-btn {
+  position: fixed; /* 追従させる */
+  z-index: 99999; /* 他の要素の下に隠れない */
+  top: 5%; /* 上から150pxのところにバナーを配置します */
+  right: 15%; /* 右から40pxのところにバナーを配置します */
+}
+
 #modal-overlay {
   display: none;   /* デフォルトは非表示 */
   z-index: 1;      /* モーダルウィンドウと通常画面の間に表示 */
@@ -157,10 +167,10 @@ h3 {
 #modal-window {
   display: none;
   z-index: 2;      /* 最前面に表示 */
-  position: absolute;
+  position: fixed;
   top: 30%;        /* 画面中央に表示 */
   left: 70%;       /* 画面中央に表示 */
-  transform: translate(-50%, -50%); /* モーダルウィンドウの大きさ分中央にずらす */
+  transform: translate(-50%, -30%); /* モーダルウィンドウの大きさ分中央にずらす */
   /* 以下はモーダルウィンドウの外観。ご自由に */
   width: 300px;
   heigt: 500px;
