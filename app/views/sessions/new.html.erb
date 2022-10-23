@@ -1,4 +1,4 @@
-<%# サインナップ機能 %>
+<%# ログイン機能 %>
 <div class="users-new-wrapper">
   <div class="title-logo">
     経営管理 for freee
@@ -7,8 +7,8 @@
   <div class="container background-white">
     <div class="row">
       <div class="col-md-offset-2 col-md-8 users-new-container">
-        <h2 class="text-center text-gray">アカウントの新規作成</h2>
-        <%= form_for @user do |f| %>
+        <h3 class="text-center text-gray">登録済みアカウントでログイン</h3>
+        <%= form_for :session, url: login_path do |f| %>
           <div class="form-group">
             <%= f.label :メールアドレス, class: 'form-label text-gray' %>
             <%= f.text_field :email, class: 'form-control' %>
@@ -17,16 +17,12 @@
             <%= f.label :パスワード, class: 'form-label text-gray' %>
             <%= f.password_field :password, class: 'form-control' %>
           </div>
-          <div class="form-group">
-            <%= f.label :パスワード確認, class: 'form-label text-gray' %>
-            <%= f.password_field :password_confirmation, class: 'form-control' %>
-          </div>  
           <div>
-            <%= f.submit "登録", class: 'btn btn-primary' %> <%#ボタンを幅広げたい。ログインを中央ゾロえ%>
+            <%= f.submit "ログイン", class: 'btn btn-primary' %> <%#ボタンを幅広げたい。ログインを中央ゾロえ%>
           </div>
         <% end %>
         <div class="login-signup-link">
-          <%= link_to 'ログインはこちら', login_path, class: 'text-gray' %>
+          <%= link_to 'まだアカウントをお持ちでない方はこちら', new_user_path, class: 'text-gray' %>
         </div>
       </div>
     </div>
