@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   get 'boards/setting'
   get 'boards/index'
 
+  resources :users
   resources :comments
 end

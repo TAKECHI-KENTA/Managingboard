@@ -73,3 +73,5 @@ gem 'gon'
 gem 'freee-api'
 
 gem 'dotenv-rails'
+
+gem 'bcrypt'

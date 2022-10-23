@@ -1,0 +1,34 @@
+<div class="users-new-wrapper">
+  <div class="title-logo">
+    経営管理 for freee
+  </div>
+  
+  <div class="container background-white">
+    <div class="row">
+      <div class="col-md-offset-2 col-md-8 users-new-container">
+        <h2 class="text-center text-gray">アカウントの新規作成</h2>
+        <%= form_for @user do |f| %>
+          <div class="form-group">
+            <%= f.label :メールアドレス, class: 'form-label text-gray' %>
+            <%= f.text_field :email, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :パスワード, class: 'form-label text-gray' %>
+            <%= f.password_field :password, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :パスワード確認, class: 'form-label text-gray' %>
+            <%= f.password_field :password_confirmation, class: 'form-control' %>
+          </div>  
+          <div>
+            <%= f.submit "登録", class: 'btn btn-primary' %> <%#ボタンを幅広げたい。ログインを中央ゾロえ%>
+          </div>
+        <% end %>
+        <div class="login-link">
+          <%= link_to 'ログインはこちら', '#',class: 'text-gray' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
