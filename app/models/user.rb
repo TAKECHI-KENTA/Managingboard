@@ -11,4 +11,5 @@ class User < ApplicationRecord
                        format: { with: VALID_PASSWORD_REGEX
                        }  #, message: "パスワードは半角8~32文字のアルファベット・数字それぞれ１文字以上含む必要があります" を入れたい
                        
+  has_many :comments
 end

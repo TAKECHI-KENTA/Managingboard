@@ -2,22 +2,21 @@
   width: 100vw;
 }
 
-.menu-bar {
-  background-color: blue;
-  color: white;
-  height: 50px;
+.navbar-brand {
+  font-size: 24px;
 }
 
-
-.company-name {
-  font-size: 36px;
-  margin-top: 15px;
+.ml-auto {
+  margin-left: auto;
 }
 
 .btn {
-  margin-top: 23px;
   background-color: #285ac8;
-  color: white;
+  color: #ffffff;
+}
+
+.container.card-conatainer {
+    margin-top: 60px;
 }
 
 .kpi-card-1 {
@@ -112,6 +111,14 @@
   }
 }
 
+.comment-card {
+  border-style: solid; 
+  border-color: #595959;
+  padding: 0 10px 0 10px;
+  margin: 15px 0 15px 0;
+  height: 300px;
+}
+
 .comment-new-wrapper {
   padding-top: 10px;  
   .form-control-select {
@@ -129,12 +136,6 @@
   .comment-group {
     margin-bottom: 20px;
   }
-  
-}
-
-
-.text-gray {
-  color:  #323232;
 }
 
 
@@ -147,13 +148,23 @@ h3 {
   font-weight: bold;
 }
 
-.fixed-btn {
-  position: fixed; /* 追従させる */
-  z-index: 99999; /* 他の要素の下に隠れない */
-  top: 5%; /* 上から150pxのところにバナーを配置します */
-  right: 15%; /* 右から40pxのところにバナーを配置します */
+hr {
+  padding: 10px 0;
+  border: none;
 }
 
+
+.text-gray {
+  color:  #323232;
+}
+
+.text-tention {
+  font-size: 10px;
+}
+
+#modal-open {
+  color: #ffffff;
+}
 #modal-overlay {
   display: none;   /* デフォルトは非表示 */
   z-index: 1;      /* モーダルウィンドウと通常画面の間に表示 */

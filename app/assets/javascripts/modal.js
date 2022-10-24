@@ -6,4 +6,16 @@ $(function () {
   $("#modal-overlay").click(function () {
     $("#modal-overlay, #modal-window").fadeOut("fast");
   });
+}); 
+
+/* $(document).ready(function() {
+    $('.open-window').openwin({
+        option : {
+            width      : 200,
+            height     : 200,
+            scrollbars : "yes"
+        },
+        focus  : true
+    });
 });
+*/

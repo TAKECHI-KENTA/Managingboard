@@ -1,11 +1,8 @@
 <div class="index-wrapper">
-  <div class="menu-bar">
-    メニュー
-  </div>
-  <div class="container">
-    <!-- <h1 class="company-name text-gray">STC合同会社</h1> -->
-    <div id="Company_name" class="company-name text-gray">STC合同会社
-    </div>
+ 
+  <%= render partial: "boards/index-navbar" %>
+
+  <div class="container card-conatainer">
     <div class="row">
       <div class="col-md-4">
         <div class="kpi-card-1">
@@ -121,9 +118,6 @@
         </div>
       </div>
     </div> 
-    <div class="fixed-btn">
-      <a id="modal-open" class="btn btn-primary btn-lg">今日のメモ</a>
-    </div>
     <div id="modal-overlay"></div>
     <div id="modal-window">
       <%= render partial: "comments/new", locals: { comment:@comment , tention:@tention } %>

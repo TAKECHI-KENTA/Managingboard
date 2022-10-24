@@ -1,0 +1,21 @@
+<div class="index-wrapper">
+  <%= render partial: "boards/index-navbar" %>
+  <div class="container card-container">
+    <% @comments.each do |comment| %>
+      <div class="row">
+        <div class="col-md-4 comment-card">
+          <h3 class="text-gray">
+            <%= comment.title %>
+          </h3>
+          <p class="text-gray text-tention">
+            <%= comment.tention.examination %>
+          </p>
+          <hr>
+          <p class="text-gray">
+            <%= comment.description %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
