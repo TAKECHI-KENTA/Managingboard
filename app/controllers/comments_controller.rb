@@ -11,16 +11,6 @@ class CommentsController < ApplicationController
     end
   end
   
-  def download 
-    @comments = Comment.all
-    respond_to do |format|
-      format.html
-      format.csv do |csv|
-        send_posts_csv(@comments)
-      end 
-    end
-  end
-  
   def send_comments_csv(comments)
     csv_data = CSV.generate do |csv|
       header = %w(タイトル 機嫌 作成日時 メモ記載内容)
@@ -49,6 +39,9 @@ class CommentsController < ApplicationController
       flash.now[:danger] = "投稿に失敗しました"
       render :new
     end
+  end 
+  
+  def show
   end 
   
   private
