@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
   get 'sessions/new'
-  root 'boards#index'
+  root 'sessions#new'
   get 'boards/setting'
   get 'boards/index'
 
   resources :users
   resources :comments
   
+  get 'comments/download'
   get '/login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'

@@ -1,4 +1,11 @@
-$(function () {
+/*$(function(){
+  $(".card-container").on('click', function() {
+      $("#board-navbar-1").hide()
+  });
+});
+ハンバーガーメニューを余白タップで隠したい */
+
+/*$(function () {
   $("#modal-open").click(function () {
     $("#modal-overlay, #modal-window").fadeIn("fast");
   });
@@ -7,15 +14,4 @@ $(function () {
     $("#modal-overlay, #modal-window").fadeOut("fast");
   });
 }); 
-
-/* $(document).ready(function() {
-    $('.open-window').openwin({
-        option : {
-            width      : 200,
-            height     : 200,
-            scrollbars : "yes"
-        },
-        focus  : true
-    });
-});
 */
