@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
   def new
     @comment = Comment.new
     @tention = Tention.all
-    flash.now[:success] = "別ウィンドウでの表示がオススメです"
+    flash.now[:success] = "別ウィンドウにして数値を見ながらメモを書くのがオススメ"
   end 
   
   def create
