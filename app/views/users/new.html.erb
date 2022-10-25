@@ -21,12 +21,12 @@
             <%= f.label :パスワード確認, class: 'form-label text-gray' %>
             <%= f.password_field :password_confirmation, class: 'form-control' %>
           </div>  
-          <div>
+          <div class="signup-login-btn">
             <%= f.submit "登録", class: 'btn btn-primary' %> <%#ボタンを幅広げたい。ログインを中央ゾロえ%>
           </div>
         <% end %>
         <div class="login-signup-link">
-          <%= link_to 'ログインはこちら', login_path, class: 'text-gray' %>
+          <%= link_to 'ログインはこちら', login_path %>
         </div>
       </div>
     </div>

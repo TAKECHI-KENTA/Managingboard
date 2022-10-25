@@ -3,12 +3,13 @@
 }
 
 .navbar-default {
-    background-color: #e3f2fd;
-    height: 55px;
+  background-color: #e3f2fd;
+  height: 55px;
 }
 
 .container-fluid {
   padding-right: 30px;
+  background-color: #e3f2fd;
 }
 
 .navbar-brand {
@@ -213,6 +214,10 @@ hr {
   background-position: center center;
   margin-top: 50px;
   padding-bottom: 50px;
+}
+
+.signup-login-btn {
+  margin-top: 30px;
 }
 
 .alert {
