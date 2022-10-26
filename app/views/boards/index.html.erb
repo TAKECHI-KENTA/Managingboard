@@ -1,6 +1,6 @@
 <div class="index-wrapper">
  
-  <%= render partial: "boards/index-navbar" %>
+  <%= render partial: "boards/index-navbar", locals: { companies:@companies } %>
 
   <div class="container card-conatainer">
     <div class="row">
@@ -49,11 +49,11 @@
             <table>
               <tr>
                 <td>同期口座の残高合計　　　</td>
-                <td>6,530千円</td>
+                <td><%#= @b_walletables.first['walletable_balance'] %></td>
               </tr>
               <tr>
                 <td>freee上の帳簿残高　　　</td>
-                <td>6,746千円</td>
+                <td><%#= @b_walletable_balance %></td>
               </tr>
             </table>
           </div>

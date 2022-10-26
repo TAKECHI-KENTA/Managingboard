@@ -9,6 +9,9 @@ class CommentsController < ApplicationController
         send_comments_csv(@comments)
       end 
     end
+    # navbar用に会社名を取得(application_controllerより)
+    get_token
+    companies
   end
   
   def send_comments_csv(comments)
