@@ -17,6 +17,8 @@ class BoardsController < ApplicationController
     @tsukimae_1 = tsukimae(1)
     @tsukimae_2 = tsukimae(2)
     @tsukimae_3 = tsukimae(3)
+    @tsukimae_4 = tsukimae(4)
+    @tsukimae_5 = tsukimae(5)
     
     #APIアクセストークンの取得(application_controllerより)
     get_token
@@ -45,7 +47,7 @@ class BoardsController < ApplicationController
     def cash_flow(term, type)
       #APIでの収入取引取得
       company_id = @companies.first['id']    #事業所IDの取得
-      uri = URI.parse("#{BASE_URL}wallet_txns?company_id=#{company_id}&walletable_type=bank_account&start_date=#{term}&end_date=#{term}&limit=100") 
+      uri = URI.parse("#{BASE_URL}wallet_txns?company_id=#{company_id}&walletable_type=bank_account&start_date=#{term}&end_date=#{term}&entry_side=#{type}&limit=100") 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme === "https"
       headers = {"Authorization": "Bearer #{ACCESS_TOKEN}" } 
@@ -57,9 +59,8 @@ class BoardsController < ApplicationController
       cash_deals = response['wallet_txns'] 
       
       #取得した取引を加工して変数に代入
-      cash_type_deals = cash_deals.select {|value| value['type']=="#{type}"}
-      cash_type_amount = cash_type_deals.sum{ |hash| hash['amount'] }
-      p cash_type_amount
+      cash_flow_amount = cash_deals.sum{ |hash| hash['amount'] }
+      p cash_flow_amount
     end 
 
     def cash_inflow
@@ -208,4 +209,56 @@ class BoardsController < ApplicationController
       @c_last_balance = c_walletables.sum{ |hash| hash['last_balance'] }
     end
 
+    def operating_profit(term)
+      #APIでの収入取引取得
+      company_id = @companies.first['id']                       #事業所IDの取得
+      term_start = term.beginning_of_month.strftime("%Y-%m-%d") #開始日の指定
+      term_end = term.end_of_month.strftime("%Y-%m-%d")         #終了日の指定
+      uri = URI.parse("#{BASE_URL}reports/trial_pl?company_id=#{company_id}&start_date=#{term_start}&end_date=#{term_end}&account_item_display_type=group") 
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = uri.scheme === "https"
+      headers = {"Authorization": "Bearer #{ACCESS_TOKEN}" } 
+      p session['token']
+      req = Net::HTTP::Get.new(uri.request_uri) 
+      req.initialize_http_header(headers)
+      res = http.request(req)
+      response = JSON.parse(res.body) 
+      trial_balances = response['trial_pl']['balances'] 
+      
+      #取得した取引を加工して変数に代入
+      op_balances = trial_balances.select {|value| value['account_category_name']=='営業損益'}
+      op_closing_balance = op_balances['closing_balance']
+      p op_closing_balance
+    end 
+
+    def operating_profit_transition
+      @op_transition_this_month = operating_profit(date)
+      @op_transition_prev_1month = operating_profit(date.months_ago(1))
+      @op_transition_prev_2month = operating_profit(date.months_ago(2))
+      @op_transition_prev_3month = operating_profit(date.months_ago(3))
+      @op_transition_prev_4month = operating_profit(date.months_ago(4))
+      @op_transition_prev_5month = operating_profit(date.months_ago(5))
+    end
+    
+    def cash_outflow
+      @cash_outflow_this_month = 0
+      for term in date.beginning_of_month..date.end_of_month
+        @cash_outflow_this_month += cash_flow(term.strftime("%Y-%m-%d"), "expense")
+      end
+      
+      @cash_outflow_prev_month = 0
+      for term in date.beginning_of_month.months_ago(1)...date.beginning_of_month
+        @cash_outflow_prev_month += cash_flow(term.strftime("%Y-%m-%d"), "expense")
+      end
+      
+      @cash_outflow_2prev_month = 0
+      for term in date.beginning_of_month.months_ago(2)...date.beginning_of_month.months_ago(1)
+        @cash_outflow_2prev_month += cash_flow(term.strftime("%Y-%m-%d"), "expense")
+      end
+      
+      @cash_outflow_3prev_month = 0
+      for term in date.beginning_of_month.months_ago(3)...date.beginning_of_month.months_ago(2)
+        @cash_outflow_3prev_month += cash_flow(term.strftime("%Y-%m-%d"), "expense")
+      end
+    end
 end
