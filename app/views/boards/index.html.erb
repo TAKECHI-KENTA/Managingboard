@@ -129,9 +129,9 @@
   
     <script>
 	            TESTER = document.getElementById('tester');
-	            var xValue = ['10月', '11月', '12月','1月'];
-	            var y1Value = [20, 14, 23, 25];
-	            var y2Value = [12, 18, 29, 18];
+	            var xValue = ["<%= @tsukimae_3.to_i() %>月", "<%= @tsukimae_2.to_i() %>月", "<%= @tsukimae_1.to_i() %>月", "<%= @kongetsu.to_i() %>月"];
+	            var y1Value = [12<%#= @cash_inflow_3prev_month.to_s(:delimited) %>, 22<%#= @cash_inflow_2prev_month.to_s(:delimited) %>, 34<%#= @cash_inflow_prev_month.to_s(:delimited) %>, 26<%#= @cash_inflow_this_month.to_s(:delimited) %>];
+	            var y2Value = [18<%#= @cash_outflow_3prev_month.to_s(:delimited) %>, 34<%#= @cash_outflow_2prev_month.to_s(:delimited) %>, 22<%#= @cash_outflow_prev_month.to_s(:delimited) %>, 39<%#= @cash_outflow_this_month.to_s(:delimited) %>];
 	            var trace1 = {
                 x: xValue,
                 y: y1Value,

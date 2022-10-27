@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   require 'uri'
   require 'net/http'
   require 'json'
+  require 'date'
   
   protect_from_forgery with: :exception
   add_flash_types :success, :info, :warning, :danger
@@ -14,6 +15,12 @@ class ApplicationController < ActionController::Base
   def logged_in?
     !current_user.nil?
   end 
+  
+  def date
+    Date.today
+  end 
+  
+
 
 #APIデータの取得
   #認可コードの取得 => private参照
@@ -24,7 +31,7 @@ class ApplicationController < ActionController::Base
       res = Net::HTTP.post_form(uri, setting_params)
       p res.body
       response = JSON.parse(res.body)
-      session['token'] = '89afafdf56bb7cbecc55910284f0a37efbfa70aec275540e8077d6849f6c78cd' #response['access_token']
+      session['token'] = '1098392c8badbfb6b671a70d89b9061bc829e4ca3577afcf141cb9f0d7599a26' #response['access_token']
       #refresh_token = response['refresh_token']
     end
 =begin    
@@ -44,7 +51,7 @@ class ApplicationController < ActionController::Base
     uri = URI.parse('https://api.freee.co.jp/api/1/companies')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme === "https"
-    headers = { "Authorization": "Bearer 89afafdf56bb7cbecc55910284f0a37efbfa70aec275540e8077d6849f6c78cd" } #{session['token']}
+    headers = { "Authorization": "Bearer 1098392c8badbfb6b671a70d89b9061bc829e4ca3577afcf141cb9f0d7599a26" } #{session['token']}
     p session['token']
     req = Net::HTTP::Get.new(uri.path)
     req.initialize_http_header(headers)
