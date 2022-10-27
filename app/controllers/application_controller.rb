@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   #ライブラリの読み込み
   require 'uri'
   require 'net/http'
+  require 'json'
   
   protect_from_forgery with: :exception
   add_flash_types :success, :info, :warning, :danger
@@ -13,7 +14,7 @@ class ApplicationController < ActionController::Base
   def logged_in?
     !current_user.nil?
   end 
-  
+
 #APIデータの取得
   #認可コードの取得 => private参照
   #アクセストークンの取得
@@ -23,8 +24,19 @@ class ApplicationController < ActionController::Base
       res = Net::HTTP.post_form(uri, setting_params)
       p res.body
       response = JSON.parse(res.body)
-      session['token'] = response['access_token']
+      session['token'] = '89afafdf56bb7cbecc55910284f0a37efbfa70aec275540e8077d6849f6c78cd' #response['access_token']
+      #refresh_token = response['refresh_token']
     end
+=begin    
+    if session['token'].blank?
+      uri = URI('https://accounts.secure.freee.co.jp/public_api/token')
+      res = Net::HTTP.post_form(uri, setting_params_refresh)
+      p res.body
+      response = JSON.parse(res.body)
+      session['token'] = response['access_token']
+      refresh_token = response['refresh_token']
+    end
+=end
   end 
   #companyデータの取得。元々privateにあったがその理由は何か？またapplication_controllerに置くと全てのcontrollerからアクセス可能だが問題ないか？
   def companies
@@ -32,7 +44,7 @@ class ApplicationController < ActionController::Base
     uri = URI.parse('https://api.freee.co.jp/api/1/companies')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme === "https"
-    headers = { "Authorization": "Bearer #{session['token']}" }
+    headers = { "Authorization": "Bearer 89afafdf56bb7cbecc55910284f0a37efbfa70aec275540e8077d6849f6c78cd" } #{session['token']}
     p session['token']
     req = Net::HTTP::Get.new(uri.path)
     req.initialize_http_header(headers)
@@ -43,6 +55,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+=begin
     #認可コードの取得
     def authorization_code
       uri = URI.parse(ENV['FREEE_REDIRECT_URI'])
@@ -61,20 +74,26 @@ class ApplicationController < ActionController::Base
       # redirect_to  response['Location']
       # @code = response.body['code'] # response body
     end
-    
-    #リフレッシュトークンの取得
-    def refresh_token
-    end 
-    
+=end
     # access_tokenの取得に使うためのパラメーター
     def setting_params #takechi.kentaで登録したアプリ。
       {
         "grant_type": "authorization_code",
         "client_id": ENV['FREEE_CLIENT_ID'],
         "client_secret": ENV['FREEE_CLIENT_SECRET'],
-        "code": authorization_code, #ENV['FREEE_TEST_CODE'],
+        "code": ENV['FREEE_TEST_CODE'], #authorization_code, 
         "redirect_uri": "urn:ietf:wg:oauth:2.0:oob"
       }
     end
-    
+=begin 
+    def setting_params_refresh
+      {
+        "grant_type": "refresh_token",
+        "client_id": ENV['FREEE_CLIENT_ID'],
+        "client_secret": ENV['FREEE_CLIENT_SECRET'],
+        "refresh_token": refresh_token,
+        "redirect_uri": "urn:ietf:wg:oauth:2.0:oob"
+      }
+    end 
+=end
 end

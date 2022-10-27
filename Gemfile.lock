@@ -270,6 +270,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   bcrypt
   bootsnap (>= 1.1.0)
   bootstrap

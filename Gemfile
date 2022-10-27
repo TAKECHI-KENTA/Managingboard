@@ -77,3 +77,5 @@ gem 'dotenv-rails'
 gem 'bcrypt'
 
 gem 'bootstrap'
+
+gem 'activesupport'

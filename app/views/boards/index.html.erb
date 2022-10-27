@@ -11,8 +11,8 @@
             <h3>選択ボタン</h3>
           </div>
           <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">3,479 千円</p>
-            <p class="text-gray kpi-discrption">現在の残高</p>
+            <p class="text-gray kpi-highlight"><%= @b_last_balance.div(1000).to_s(:delimited) %> 千円</p>
+            <p class="text-gray kpi-discrption">現在の銀行残高 (同期口座)</p>
           </div>
           <div class="kpi-graph">
             <div id="tester"></div>
@@ -26,13 +26,13 @@
             <h3>期間の選択</h3>
           </div>
           <div class="kpi-discrption text-gray">
-            <p>1,289千円の未収</p>
+            <p><%= @unsettled_in.div(1000).to_s(:delimited) %> 千円の未収</p>
           </div>
           <div class="kpi-graph-2">
              <div id="receivable_chart"></div>
           </div>
           <div class="kpi-discrption text-gray">
-            <p>1,543千円の未払</p>
+            <p><%= @unsettled_pay.div(1000).to_s(:delimited) %> 千円の未払</p>
           </div>
           <div class="kpi-graph">
             <div id="payable_chart"></div>
@@ -49,11 +49,13 @@
             <table>
               <tr>
                 <td>同期口座の残高合計　　　</td>
-                <td><%#= @b_walletables.first['walletable_balance'] %></td>
+                <td><%= @b_last_balance.div(1000).to_s(:delimited) %>　</td>
+                <td>千円</td>
               </tr>
               <tr>
                 <td>freee上の帳簿残高　　　</td>
-                <td><%#= @b_walletable_balance %></td>
+                <td><%= @b_walletable_balance.div(1000).to_s(:delimited) %>　</td>
+                <td>千円</td>
               </tr>
             </table>
           </div>
@@ -62,11 +64,13 @@
             <table>
               <tr>
                 <td>同期口座の残高合計　　　</td>
-                <td>2,499千円</td>
+                <td><%= @c_last_balance.div(1000).to_s(:delimited) %>　</td>
+                <td>千円</td>
               </tr>
               <tr>
                 <td>freee上の帳簿残高　　　</td>
-                <td>2,499千円</td>
+                <td><%= @c_walletable_balance.div(1000).to_s(:delimited) %>　</td>
+                <td>千円</td>
               </tr>
             </table>
           </div>
@@ -184,8 +188,8 @@
     </script>
     <script>
       RECIEVABLE_CHART = document.getElementById('receivable_chart');
-      var x1Value = [10];
-      var x2Value = [1279];
+      var x1Value = [<%= @unsettled_in_aft_due.to_s(:delimited) %>];
+      var x2Value = [<%= @unsettled_in_bef_due.to_s(:delimited) %>];
       var yValue = [''];
       var trace1 = {
         x: x1Value,
@@ -249,9 +253,9 @@
       Plotly.newPlot('receivable_chart', data, layout, config)
     </script>
     <script>
-      RECIEVABLE_CHART = document.getElementById('payable_chart');
-      var x1Value = [543];
-      var x2Value = [1000];
+      PAYABLE_CHART = document.getElementById('payable_chart');
+      var x1Value = [<%= @unsettled_pay_aft_due.to_s(:delimited) %>];
+      var x2Value = [<%= @unsettled_pay_bef_due.to_s(:delimited) %>];
       var yValue = [''];
       var trace1 = {
         x: x1Value,
