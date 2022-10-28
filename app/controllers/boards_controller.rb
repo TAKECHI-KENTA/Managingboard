@@ -45,7 +45,7 @@ class BoardsController < ApplicationController
 
   private
     BASE_URL = "https://api.freee.co.jp/api/1/"
-    ACCESS_TOKEN = "2c92e56786dedac0ecb59b682bf86901d40ed70558a2458aee6e9d6b166a2922"
+    ACCESS_TOKEN = "89894407d81d550bde682b882274fabeae70831616b227a51a1610e6dcb92e8e"
 
     def cash_flow(term, type)
       #APIでの収入取引取得
@@ -285,11 +285,13 @@ class BoardsController < ApplicationController
         cost_value_ary.push keys['closing_balance']
         cost_label_ary.push keys['account_group_name']
       end 
-      #配列をviewに引き渡す
+      #配列をviewに引き渡す - 金額
       @cost_prev_1month_array_values = cost_value_ary
-      cost_label_ary.each do |labels|
-        puts "'#{labels}'"                            #Plotyの仕様上、railsの配列の"xx"を読み込む時に" "を飛ばして、xxだけ読み込んでしまうので'xxx'になるよう補正
-      end
+      #配列をviewに引き渡す - 経費科目 ※Plotyの仕様上、railsの配列の"xx"を読み込む時に" "を飛ばして、xxだけ読み込んでしまうので'xxx'になるよう補正 
+      #cost_label_ary_2 = Array.new
+      #cost_label_ary.each do |labels|
+      #  cost_label_ary_2.push labels.to_sym                         
+      #end
       @cost_prev_1month_array_labels = cost_label_ary
     end
     

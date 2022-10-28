@@ -128,7 +128,7 @@
   </div>
   
   <%= render partial: "boards/index-footer" %>
- 
+  <%= @cost_prev_1month_array_labels %>
   
     <script>
       TESTER = document.getElementById('tester');
@@ -400,7 +400,7 @@
     <script>
       COST_CHART = document.getElementById('cost_chart');
       var allValues = <%= @cost_prev_1month_array_values %>;
-      var allLabels = <%= @cost_prev_1month_array_labels %>;
+      var allLabels = "<%= @cost_prev_1month_array_labels %>";
       var data = [{
         values: allValues,
         labels: allLabels,

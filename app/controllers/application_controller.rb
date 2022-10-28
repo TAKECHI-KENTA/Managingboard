@@ -20,8 +20,6 @@ class ApplicationController < ActionController::Base
     Date.today
   end 
   
-
-
 #APIデータの取得
   #認可コードの取得 => private参照
   #アクセストークンの取得
@@ -31,7 +29,7 @@ class ApplicationController < ActionController::Base
       res = Net::HTTP.post_form(uri, setting_params)
       p res.body
       response = JSON.parse(res.body)
-      session['token'] = '2c92e56786dedac0ecb59b682bf86901d40ed70558a2458aee6e9d6b166a2922' #response['access_token']
+      session['token'] = response['access_token']
       #refresh_token = response['refresh_token']
     end
 =begin    
@@ -51,7 +49,7 @@ class ApplicationController < ActionController::Base
     uri = URI.parse('https://api.freee.co.jp/api/1/companies')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme === "https"
-    headers = { "Authorization": "Bearer 2c92e56786dedac0ecb59b682bf86901d40ed70558a2458aee6e9d6b166a2922" } #{session['token']}
+    headers = { "Authorization": "Bearer 89894407d81d550bde682b882274fabeae70831616b227a51a1610e6dcb92e8e" } #{session['token']}
     p session['token']
     req = Net::HTTP::Get.new(uri.path)
     req.initialize_http_header(headers)

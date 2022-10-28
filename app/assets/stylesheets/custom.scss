@@ -1,15 +1,23 @@
 .index-wrapper {
   width: 100vw;
+  background-color: #e3f2fd
 }
 
 .navbar-default {
   background-color: #e3f2fd;
   height: 55px;
+  font-weight: bold;
+  .navbar-brand {
+    color: #323232;
+  }
+  .navbar-nav > li > a {
+    color: #323232;
+  }
 }
 
 .container-fluid {
   padding-right: 30px;
-  background-color: #e3f2fd;
+  background-color: white;
 }
 
 .navbar-brand {
@@ -30,6 +38,7 @@
   padding: 0 10px 0 10px;
   margin: 15px 0 15px 0;
   height: 300px;
+  background-color: white;
   .kpi-title {
     display: flex;
     justify-content: space-between;
@@ -64,6 +73,7 @@
   padding: 0 10px 0 10px;
   margin: 15px 0 15px 0;
   height: 300px;
+  background-color: white;
   .kpi-title {
     display: flex;
     justify-content: space-between;
@@ -88,6 +98,7 @@
   padding: 0 10px 0 10px;
   margin: 15px 0 15px 0;
   height: 300px;
+  background-color: white;
   .kpi-title {
     display: flex;
     justify-content: space-between;
@@ -122,6 +133,7 @@
   padding: 0 10px 0 10px;
   margin: 15px 0 15px 0;
   height: 300px;
+  background-color: white;
 }
 
 .comment-new-wrapper {
