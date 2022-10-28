@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
       res = Net::HTTP.post_form(uri, setting_params)
       p res.body
       response = JSON.parse(res.body)
-      session['token'] = '1098392c8badbfb6b671a70d89b9061bc829e4ca3577afcf141cb9f0d7599a26' #response['access_token']
+      session['token'] = '2c92e56786dedac0ecb59b682bf86901d40ed70558a2458aee6e9d6b166a2922' #response['access_token']
       #refresh_token = response['refresh_token']
     end
 =begin    
@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     uri = URI.parse('https://api.freee.co.jp/api/1/companies')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme === "https"
-    headers = { "Authorization": "Bearer 1098392c8badbfb6b671a70d89b9061bc829e4ca3577afcf141cb9f0d7599a26" } #{session['token']}
+    headers = { "Authorization": "Bearer 2c92e56786dedac0ecb59b682bf86901d40ed70558a2458aee6e9d6b166a2922" } #{session['token']}
     p session['token']
     req = Net::HTTP::Get.new(uri.path)
     req.initialize_http_header(headers)

@@ -38,11 +38,14 @@ class BoardsController < ApplicationController
     bank_walletables
     card_walletables
     
+    #営業損益/収益/費用情報の取得
+    pl_balances
+    
   end
 
   private
     BASE_URL = "https://api.freee.co.jp/api/1/"
-    ACCESS_TOKEN = "1098392c8badbfb6b671a70d89b9061bc829e4ca3577afcf141cb9f0d7599a26"
+    ACCESS_TOKEN = "2c92e56786dedac0ecb59b682bf86901d40ed70558a2458aee6e9d6b166a2922"
 
     def cash_flow(term, type)
       #APIでの収入取引取得
@@ -209,7 +212,7 @@ class BoardsController < ApplicationController
       @c_last_balance = c_walletables.sum{ |hash| hash['last_balance'] }
     end
 
-    def operating_profit(term)
+    def trial_balance(term)
       #APIでの収入取引取得
       company_id = @companies.first['id']                       #事業所IDの取得
       term_start = term.beginning_of_month.strftime("%Y-%m-%d") #開始日の指定
@@ -224,41 +227,71 @@ class BoardsController < ApplicationController
       res = http.request(req)
       response = JSON.parse(res.body) 
       trial_balances = response['trial_pl']['balances'] 
-      
-      #取得した取引を加工して変数に代入
-      op_balances = trial_balances.select {|value| value['account_category_name']=='営業損益'}
-      op_closing_balance = op_balances['closing_balance']
-      p op_closing_balance
+      p trial_balances
     end 
 
-    def operating_profit_transition
-      @op_transition_this_month = operating_profit(date)
-      @op_transition_prev_1month = operating_profit(date.months_ago(1))
-      @op_transition_prev_2month = operating_profit(date.months_ago(2))
-      @op_transition_prev_3month = operating_profit(date.months_ago(3))
-      @op_transition_prev_4month = operating_profit(date.months_ago(4))
-      @op_transition_prev_5month = operating_profit(date.months_ago(5))
+    def pl_balances
+      #trial_balance(term)の期間指定で特定期間のbalances(hash)を取得
+      tb_this_month = trial_balance(date)
+      tb_prev_1month = trial_balance(date.months_ago(1))
+      tb_prev_2month = trial_balance(date.months_ago(2))
+      tb_prev_3month = trial_balance(date.months_ago(3))
+      tb_prev_4month = trial_balance(date.months_ago(4))
+      tb_prev_5month = trial_balance(date.months_ago(5))
+      
+      #営業損益---各月のbalancesから営業損益(op)の金額('closing_balance')だけを抽出する
+      op_this_month = tb_this_month.select {|value| value['account_category_name']=='営業損益'}
+      op_prev_1month = tb_prev_1month.select {|value| value['account_category_name']=='営業損益'}
+      op_prev_2month = tb_prev_2month.select {|value| value['account_category_name']=='営業損益'}
+      op_prev_3month = tb_prev_3month.select {|value| value['account_category_name']=='営業損益'}
+      op_prev_4month = tb_prev_4month.select {|value| value['account_category_name']=='営業損益'}
+      op_prev_5month = tb_prev_5month.select {|value| value['account_category_name']=='営業損益'}
+      
+      @op_transition_this_month = op_this_month[0]['closing_balance']
+      @op_transition_prev_1month = op_prev_1month[0]['closing_balance']
+      @op_transition_prev_2month = op_prev_2month[0]['closing_balance']
+      @op_transition_prev_3month = op_prev_3month[0]['closing_balance']
+      @op_transition_prev_4month = op_prev_4month[0]['closing_balance']
+      @op_transition_prev_5month = op_prev_5month[0]['closing_balance']
+      
+      #営業損益---追加:タイトル表示する営業損益がマイナスの場合、div(1000)での強制切り捨て(マイナスが1大きくなる)を回避
+      @op_transition_prev_1month_abs = @op_transition_prev_1month.abs
+      @sign = "▲" if @op_transition_prev_1month < 0
+      
+      #収益(売上)---各月のbalancesから収益(rev)の金額('closing_balance')だけを抽出する
+      rev_this_month = tb_this_month.select {|value| value['hierarchy_level']==1 && value['account_category_name']==('収入金額' || '売上高')}
+      rev_prev_1month = tb_prev_1month.select {|value| value['hierarchy_level']==1 && value['account_category_name']==('収入金額' || '売上高')}
+      rev_prev_2month = tb_prev_2month.select {|value| value['hierarchy_level']==1 && value['account_category_name']==('収入金額' || '売上高')}
+      rev_prev_3month = tb_prev_3month.select {|value| value['hierarchy_level']==1 && value['account_category_name']==('収入金額' || '売上高')}
+      rev_prev_4month = tb_prev_4month.select {|value| value['hierarchy_level']==1 && value['account_category_name']==('収入金額' || '売上高')}
+      rev_prev_5month = tb_prev_5month.select {|value| value['hierarchy_level']==1 && value['account_category_name']==('収入金額' || '売上高')}
+      
+      @rev_transition_this_month = rev_this_month[0]['closing_balance']
+      @rev_transition_prev_1month = rev_prev_1month[0]['closing_balance']
+      @rev_transition_prev_2month = rev_prev_2month[0]['closing_balance']
+      @rev_transition_prev_3month = rev_prev_3month[0]['closing_balance']
+      @rev_transition_prev_4month = rev_prev_4month[0]['closing_balance']
+      @rev_transition_prev_5month = rev_prev_5month[0]['closing_balance']
+      
+      #経費(売上原価除く)---
+      #1ヶ月前のbalancesから経費の金額を抽出
+      cost_prev_1month = tb_prev_1month.select {|value| value['hierarchy_level']==3 && value['account_category_name']==('経費' || '販売管理費')}
+      #タイトル用の経費合計値を作りviewに渡す
+      @cost_transition_prev_1month = cost_prev_1month.sum{ |hash| hash['closing_balance'] }
+      #グラフ用の配列データを作る
+      cost_value_ary = Array.new
+      cost_label_ary = Array.new
+      cost_prev_1month.each do |keys|
+        cost_value_ary.push keys['closing_balance']
+        cost_label_ary.push keys['account_group_name']
+      end 
+      #配列をviewに引き渡す
+      @cost_prev_1month_array_values = cost_value_ary
+      cost_label_ary.each do |labels|
+        puts "'#{labels}'"                            #Plotyの仕様上、railsの配列の"xx"を読み込む時に" "を飛ばして、xxだけ読み込んでしまうので'xxx'になるよう補正
+      end
+      @cost_prev_1month_array_labels = cost_label_ary
     end
     
-    def cash_outflow
-      @cash_outflow_this_month = 0
-      for term in date.beginning_of_month..date.end_of_month
-        @cash_outflow_this_month += cash_flow(term.strftime("%Y-%m-%d"), "expense")
-      end
-      
-      @cash_outflow_prev_month = 0
-      for term in date.beginning_of_month.months_ago(1)...date.beginning_of_month
-        @cash_outflow_prev_month += cash_flow(term.strftime("%Y-%m-%d"), "expense")
-      end
-      
-      @cash_outflow_2prev_month = 0
-      for term in date.beginning_of_month.months_ago(2)...date.beginning_of_month.months_ago(1)
-        @cash_outflow_2prev_month += cash_flow(term.strftime("%Y-%m-%d"), "expense")
-      end
-      
-      @cash_outflow_3prev_month = 0
-      for term in date.beginning_of_month.months_ago(3)...date.beginning_of_month.months_ago(2)
-        @cash_outflow_3prev_month += cash_flow(term.strftime("%Y-%m-%d"), "expense")
-      end
-    end
+    
 end

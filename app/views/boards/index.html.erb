@@ -86,7 +86,7 @@
             <h3>期間の選択</h3>
           </div>
           <div class="kpi-summary">
-            <p class="text-gray kpi-highlight"><%= @op_transition_prev_1month.div(1000).to_s(:delimited) %> 千円</p>
+            <p class="text-gray kpi-highlight"><%= @sign %> <%= @op_transition_prev_1month_abs.div(1000).to_s(:delimited) %> 千円</p>
             <p class="text-gray kpi-discrption">先月の営業損益</p>
           </div>
           <div class="kpi-graph-1">
@@ -97,11 +97,12 @@
       <div class="col-md-4">
         <div class="kpi-card-1">
           <div class="kpi-title">
-            <h2 class="text-gray">収益</h2>
+            <h2 class="text-gray">収益 (売上高)</h2>
             <h3>期間の選択</h3>
           </div>
             <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">6,459 千円</p>
+            <p class="text-gray kpi-highlight"><%= @rev_transition_prev_1month.div(1000).to_s(:delimited) %> 千円</p>
+            <p class="text-gray kpi-discrption">先月の収益合計額</p>
           </div>
           <div class="kpi-graph-1">
             <div id="revenue_chart"></div>
@@ -111,11 +112,12 @@
       <div class="col-md-4">
         <div class="kpi-card-1">
           <div class="kpi-title">
-            <h2 class="text-gray">費用</h2>
+            <h2 class="text-gray">経費 (原価を除く)</h2>
             <h3>期間の選択</h3>
           </div>
             <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">18,000 千円</p>
+            <p class="text-gray kpi-highlight"><%= @cost_transition_prev_1month.div(1000).to_s(:delimited) %> 千円</p>
+            <p class="text-gray kpi-discrption">先月の経費合計額</p>
           </div>
           <div class="kpi-graph-1">
             <div id="cost_chart"></div>
@@ -359,9 +361,8 @@
     </script>
     <script>
       REVENUE_CHART = document.getElementById('revenue_chart');
-      var xValue = ['8月','9月','10月','11月','12月','1月'];
-      var yValue = [3323,1895,7543,8904,9732,6459];
-
+      var xValue = ["<%= @tsukimae_5.to_i() %>月", "<%= @tsukimae_4.to_i() %>月", "<%= @tsukimae_3.to_i() %>月", "<%= @tsukimae_2.to_i() %>月", "<%= @tsukimae_1.to_i() %>月", "<%= @kongetsu.to_i() %>月"];
+      var yValue = [<%= @rev_transition_prev_5month.to_s(:delimited) %>, <%= @rev_transition_prev_4month.to_s(:delimited) %>, <%= @rev_transition_prev_3month.to_s(:delimited) %>, <%= @rev_transition_prev_2month.to_s(:delimited) %>, <%= @rev_transition_prev_1month.to_s(:delimited) %>, <%= @rev_transition_this_month.to_s(:delimited) %>];
       var trace1 = {
         x: xValue,
         y: yValue,
@@ -397,9 +398,9 @@
       Plotly.newPlot('revenue_chart', data, layout, config)
     </script>
     <script>
-      var allValues = [19, 26, 55, 8, 24, 3, 4, 41];
-      var allLabels = ['売上原価', '販売手数料', '地代家賃','水道光熱費','旅費交通費','交際費','雑費','その他'];
-
+      COST_CHART = document.getElementById('cost_chart');
+      var allValues = <%= @cost_prev_1month_array_values %>;
+      var allLabels = <%= @cost_prev_1month_array_labels %>;
       var data = [{
         values: allValues,
         labels: allLabels,
