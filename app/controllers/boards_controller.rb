@@ -45,16 +45,13 @@ class BoardsController < ApplicationController
 
   private
     BASE_URL = "https://api.freee.co.jp/api/1/"
-    ACCESS_TOKEN = ENV['FREEE_TEST_ACCESS_TOKEN'] #session['token']
-
     def cash_flow(term, type)
       #APIでの収入取引取得
       company_id = @companies.first['id']    #事業所IDの取得 paramsでもらう
       uri = URI.parse("#{BASE_URL}wallet_txns?company_id=#{company_id}&walletable_type=bank_account&start_date=#{term}&end_date=#{term}&entry_side=#{type}&limit=100") 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme === "https"
-      headers = {"Authorization": "Bearer #{ACCESS_TOKEN}" } 
-      p session['token']
+      headers = {"Authorization": "Bearer #{session['token']}" } 
       req = Net::HTTP::Get.new(uri.request_uri) 
       req.initialize_http_header(headers)
       res = http.request(req)
@@ -63,7 +60,6 @@ class BoardsController < ApplicationController
       
       #取得した取引を加工して変数に代入
       cash_flow_amount = cash_deals.sum{ |hash| hash['amount'] }
-      p cash_flow_amount
     end 
 
     def cash_inflow
@@ -121,8 +117,7 @@ class BoardsController < ApplicationController
       uri = URI.parse("#{BASE_URL}deals?company_id=#{company_id}&status=unsettled&start_due_date=#{date}") #本日以降が決済期日の取引のみ取得
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme === "https"
-      headers = {"Authorization": "Bearer #{ACCESS_TOKEN}" } 
-      p session['token']
+      headers = {"Authorization": "Bearer #{session['token']}" } 
       req = Net::HTTP::Get.new(uri.request_uri) #companiesではuri.pathでよかったがパラメーターを埋め込んでいるのでuri.request_uriになる
       req.initialize_http_header(headers)
       res = http.request(req)
@@ -149,8 +144,7 @@ class BoardsController < ApplicationController
       uri = URI.parse("#{BASE_URL}deals?company_id=#{company_id}&status=unsettled") 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme === "https"
-      headers = {"Authorization": "Bearer #{ACCESS_TOKEN}" } 
-      p session['token']
+      headers = {"Authorization": "Bearer #{session['token']}" } 
       req = Net::HTTP::Get.new(uri.request_uri) 
       req.initialize_http_header(headers)
       res = http.request(req)
@@ -176,8 +170,7 @@ class BoardsController < ApplicationController
       uri = URI.parse("#{BASE_URL}walletables?company_id=#{company_id}&with_balance=true&type=bank_account") 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme === "https"
-      headers = {"Authorization": "Bearer #{ACCESS_TOKEN}" } #{session['token']}
-      p session['token']
+      headers = {"Authorization": "Bearer #{session['token']}" } #{session['token']}
       req = Net::HTTP::Get.new(uri.request_uri) 
       req.initialize_http_header(headers)
       res = http.request(req)
@@ -199,8 +192,7 @@ class BoardsController < ApplicationController
       uri = URI.parse("#{BASE_URL}walletables?company_id=#{company_id}&with_balance=true&type=credit_card") 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme === "https"
-      headers = {"Authorization": "Bearer #{ACCESS_TOKEN}" } #{session['token']}
-      p session['token']
+      headers = {"Authorization": "Bearer #{session['token']}" } #{session['token']}
       req = Net::HTTP::Get.new(uri.request_uri)
       req.initialize_http_header(headers)
       res = http.request(req)
@@ -220,8 +212,7 @@ class BoardsController < ApplicationController
       uri = URI.parse("#{BASE_URL}reports/trial_pl?company_id=#{company_id}&start_date=#{term_start}&end_date=#{term_end}&account_item_display_type=group") 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme === "https"
-      headers = {"Authorization": "Bearer #{ACCESS_TOKEN}" } 
-      p session['token']
+      headers = {"Authorization": "Bearer #{session['token']}" } 
       req = Net::HTTP::Get.new(uri.request_uri) 
       req.initialize_http_header(headers)
       res = http.request(req)
@@ -293,8 +284,6 @@ class BoardsController < ApplicationController
       #  cost_label_ary_2.push labels.to_sym                         
       #end
       @cost_prev_1month_array_labels = cost_label_ary
-      p @cost_prev_1month_array_values
-      p @cost_prev_1month_array_labels
     end
     
     
