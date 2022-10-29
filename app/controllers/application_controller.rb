@@ -30,18 +30,18 @@ class ApplicationController < ActionController::Base
       p res.body
       response = JSON.parse(res.body)
       session['token'] = response['access_token']
-      #refresh_token = response['refresh_token']
+      session['refresh_token'] = response['refresh_token']
     end
-=begin    
+   
     if session['token'].blank?
       uri = URI('https://accounts.secure.freee.co.jp/public_api/token')
       res = Net::HTTP.post_form(uri, setting_params_refresh)
       p res.body
       response = JSON.parse(res.body)
       session['token'] = response['access_token']
-      refresh_token = response['refresh_token']
+      session['refresh_token'] = response['refresh_token']
     end
-=end
+
   end 
   #companyデータの取得。元々privateにあったがその理由は何か？またapplication_controllerに置くと全てのcontrollerからアクセス可能だが問題ないか？
   def companies
@@ -49,14 +49,14 @@ class ApplicationController < ActionController::Base
     uri = URI.parse('https://api.freee.co.jp/api/1/companies')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme === "https"
-    headers = { "Authorization": "Bearer 89894407d81d550bde682b882274fabeae70831616b227a51a1610e6dcb92e8e" } #{session['token']}
+    headers = { "Authorization": "Bearer #{ENV['FREEE_TEST_ACCESS_TOKEN']}" } #{session['token']}に変える
     p session['token']
     req = Net::HTTP::Get.new(uri.path)
     req.initialize_http_header(headers)
     res = http.request(req)
 
     response = JSON.parse(res.body)
-    @companies = response['companies']
+    @companies = response['companies']　#@companyにはcompanies.firstを入れる。デフォルトで1件目。さらに@comapnyをユーザーが選んだ数値に変えられるようにする。
   end
 
   private
@@ -80,25 +80,24 @@ class ApplicationController < ActionController::Base
       # @code = response.body['code'] # response body
     end
 =end
-    # access_tokenの取得に使うためのパラメーター
-    def setting_params #takechi.kentaで登録したアプリ。
+    # access_token取得用パラメーター(1回目)
+    def setting_params 
       {
         "grant_type": "authorization_code",
         "client_id": ENV['FREEE_CLIENT_ID'],
         "client_secret": ENV['FREEE_CLIENT_SECRET'],
-        "code": ENV['FREEE_TEST_CODE'], #authorization_code, 
+        "code": authorization_code, 
         "redirect_uri": "urn:ietf:wg:oauth:2.0:oob"
       }
     end
-=begin 
+    # access_token取得用パラメーター(2回目以降)
     def setting_params_refresh
       {
         "grant_type": "refresh_token",
         "client_id": ENV['FREEE_CLIENT_ID'],
         "client_secret": ENV['FREEE_CLIENT_SECRET'],
-        "refresh_token": refresh_token,
+        "refresh_token": session['refresh_token'],#このコードで毎回リフレッシュトークンが変わるのか
         "redirect_uri": "urn:ietf:wg:oauth:2.0:oob"
       }
     end 
-=end
 end

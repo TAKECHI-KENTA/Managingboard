@@ -45,11 +45,11 @@ class BoardsController < ApplicationController
 
   private
     BASE_URL = "https://api.freee.co.jp/api/1/"
-    ACCESS_TOKEN = "89894407d81d550bde682b882274fabeae70831616b227a51a1610e6dcb92e8e"
+    ACCESS_TOKEN = ENV['FREEE_TEST_ACCESS_TOKEN'] #session['token']
 
     def cash_flow(term, type)
       #APIでの収入取引取得
-      company_id = @companies.first['id']    #事業所IDの取得
+      company_id = @companies.first['id']    #事業所IDの取得 paramsでもらう
       uri = URI.parse("#{BASE_URL}wallet_txns?company_id=#{company_id}&walletable_type=bank_account&start_date=#{term}&end_date=#{term}&entry_side=#{type}&limit=100") 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme === "https"
@@ -293,6 +293,8 @@ class BoardsController < ApplicationController
       #  cost_label_ary_2.push labels.to_sym                         
       #end
       @cost_prev_1month_array_labels = cost_label_ary
+      p @cost_prev_1month_array_values
+      p @cost_prev_1month_array_labels
     end
     
     

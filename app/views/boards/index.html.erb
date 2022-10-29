@@ -400,7 +400,8 @@
     <script>
       COST_CHART = document.getElementById('cost_chart');
       var allValues = <%= @cost_prev_1month_array_values %>;
-      var allLabels = "<%= @cost_prev_1month_array_labels %>";
+      var allLabels = "<%= @cost_prev_1month_array_labels %>"<%#["aaa","bbb","ccc","ddd","eee","fff","ggg","hhh"]%>;
+      console.log(allValues)
       var data = [{
         values: allValues,
         labels: allLabels,
