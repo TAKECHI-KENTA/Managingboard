@@ -1,8 +1,9 @@
 <div class="index-wrapper">
  
-  <%= render partial: "boards/index-navbar", locals: { companies:@companies } %>
-
+  <%#= render partial: "boards/index-navbar", locals: { company:@company } %>
+  <%= render partial: "boards/index-navbar" %>
   <div class="container card-conatainer">
+    <h1><%= @company['display_name'] %>
     <div class="row">
       <div class="col-md-4">
         <div class="kpi-card-1">
@@ -46,7 +47,7 @@
           </div>
           <div class="text-gray">
             <h2>銀行</h2>
-            <table>
+            <table class="wallet_table">
               <tr>
                 <td>同期口座の残高合計　　　</td>
                 <td><%= @b_last_balance.div(1000).to_s(:delimited) %>　</td>
@@ -61,7 +62,7 @@
           </div>
           <div class="kpi-graph text-gray">
             <h2>クレジットカード</h2>
-            <table>
+            <table class="wallet_table">
               <tr>
                 <td>同期口座の残高合計　　　</td>
                 <td><%= @c_last_balance.div(1000).to_s(:delimited) %>　</td>

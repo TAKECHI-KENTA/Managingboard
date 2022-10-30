@@ -1,5 +1,6 @@
 <div class="index-wrapper">
-  <%= render partial: "boards/index-navbar", locals: { companies:@companies } %>
+  <%#= render partial: "boards/index-navbar", locals: { company:@company } %>
+  <%= render partial: "boards/index-navbar" %>
   <div class="container comment-container">
     <p class="download-btn"><%= link_to 'メモのダウンロード (csv)', comments_path(format: :csv) %></p>
     <div class="row">
