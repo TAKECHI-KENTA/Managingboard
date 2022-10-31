@@ -15,8 +15,8 @@
 //     return responseJson.companies;
 // };
 
-// $(function() {
-//     $("#Company_name").text("jQuery稼働テスト")
-//   })
-
-// JSON形式のファイルから特定の値だけを取り出し、htmlに渡す方法
+/*
+$(function() {
+    $("#Company_name").text("jQuery稼働テスト")
+  })
+*/ //メンタリング中にテストで記載を変えられるか確認→ done

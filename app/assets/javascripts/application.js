@@ -22,4 +22,5 @@
 
 //= require 'Front/graph.js'
 //= require 'company/getcompany.js'
+//= require 'auth/gettoken.js'
 //= require_tree .

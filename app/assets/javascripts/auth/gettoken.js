@@ -89,30 +89,26 @@
 //   json: true
 // };
 
-// request(options, function (error, response, body) {
-//   if (error) throw new Error(error);
-//   //リクエストレスポンスからアクセストークンを取得する。
-//   var response = body;
-//   access_token = response.access_token;
-//   refresh_token = response.refresh_token;
-// });
+// 以下、メンタリング中に記載//
+export const getToken = request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+  console.log(body);
+  //リクエストレスポンスからアクセストークンを取得する。
+  var response = body;
+  access_token = response.access_token;
+  refresh_token = response.refresh_token;
+  return access_token
+});
 
-// export const getToken = request(options, function (error, response, body) {
-//   if (error) throw new Error(error);
-//   console.log(body);
-//   //リクエストレスポンスからアクセストークンを取得する。
-//   var response = body;
-//   access_token = response.access_token;
-//   refresh_token = response.refresh_token;
-//   return access_token
-// });
+export const refresToken = request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+  //リクエストレスポンスからアクセストークンを取得する。
+  var response = body;
+  access_token = response.access_token;
+  refresh_token = response.refresh_token;
+  return access_token
+});
 
-// export const refresToken = request(options, function (error, response, body) {
-//   if (error) throw new Error(error);
-//   //リクエストレスポンスからアクセストークンを取得する。
-//   var response = body;
-//   access_token = response.access_token;
-//   refresh_token = response.refresh_token;
-//   return access_token
-// });
-// });
+$(function() {
+    $("#Company_name").text("xxx")
+  })
