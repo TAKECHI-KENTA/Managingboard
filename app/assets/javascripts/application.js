@@ -14,8 +14,8 @@
 //= require activestorage
 //= require turbolinks
 
-//= require jquery
 //= require jquery_ujs
+
 //= require bootstrap-sprockets
 
 //= require plotly-latest.min
@@ -23,4 +23,8 @@
 //= require 'Front/graph.js'
 //= require 'company/getcompany.js'
 //= require 'auth/gettoken.js'
+//= require jquery
+//= require bootstrap
+//= require activestorage
+//= require turbolinks
 //= require_tree .

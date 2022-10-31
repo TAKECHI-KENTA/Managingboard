@@ -1,0 +1,27 @@
+<div class="comment-new-wrapper">
+  <div class="container new-comment-container">
+    <div class="row">
+      <div class="col-md-6">
+        <%= form_for @comment do |f| %>
+          <div class="comment-group">
+            <%= f.label :ご機嫌, class: 'form-label text-gray' %>
+            <%= f.collection_select(:tention_id, @tention, :id, :examination, {include_blank: false}, {class: 'form-control-select form-control'}) %> 
+          </div>
+          <div class="comment-group">
+            <%= f.label :今日の感想　＊必須, class: 'form-label text-gray' %>
+            <%= f.text_area :description, class: 'form-control-description form-control' %>
+          </div>
+          <div class="comment-group">
+            <%= f.label :タイトル, class: 'form-label text-gray' %>
+            <%= f.text_field :title, class: 'form-control-title form-control' %>
+          </div>
+          <div class="comment-post">
+            <% if logged_in? %>
+              <%= f.submit '投稿 (ウィンドウを自動的に閉じます)', onclick: "setTimeout(function(){window.close();},1000)", class: 'btn window-close' %> <%# ウィンドウクローズしか行われない。これとsee more%>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

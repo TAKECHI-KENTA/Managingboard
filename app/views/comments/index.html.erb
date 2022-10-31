@@ -1,0 +1,43 @@
+<div class="index-wrapper">
+  <%#= render partial: "boards/index-navbar", locals: { company:@company } %>
+  <%= render partial: "boards/index-navbar" %>
+  <div class="container comment-container">
+    <p class="download-btn"><%= link_to 'メモのダウンロード (csv)', comments_path(format: :csv) %></p>
+    <div class="row">
+      <% @comments.reverse.each do |comment| %>
+        <div class="col-md-4">
+          <div class="comment-card">
+            <div class="row">
+              <div class="col-md-8 text-title">
+                <h3 class="text-gray">
+                  <% if comment.title.empty? %>
+                    <p>(no title)</p>
+                  <% else %>
+                    <%= comment.title %>
+                  <% end %>
+                </h3>
+              </div>
+              <div class="col-md-4">
+                <p class="text-tention">
+                  <%= comment.tention.examination %>
+                </p>
+              </div>
+            </div>
+            <div>
+              <p class="text-gray">
+                <%= comment.created_at.to_s(:datetime_jp) %>
+              </p>
+            </div>
+            <hr>
+            <div class="text-description">
+              <p class="text-gray">
+                <%= simple_format(comment.description) %>
+              </p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <%= render partial: "boards/index-footer" %>
+</div>

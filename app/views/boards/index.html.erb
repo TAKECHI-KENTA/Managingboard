@@ -1,24 +1,20 @@
 <div class="index-wrapper">
-  <div class="menu-bar">
-    メニュー
-  </div>
-  <div class="container">
-    <!-- <h1 class="company-name text-gray">STC合同会社</h1> -->
-    <div id="Company_name" class="company-name text-gray"><%= @companies&.first['display_name'] %>
-    </div>
+  <%#= render partial: "boards/index-navbar", locals: { company:@company } %>
+  <%= render partial: "boards/index-navbar" %>
+  <div class="container card-conatainer">
+    <h1><%= @company['display_name'] %>
     <div class="row">
       <div class="col-md-4">
         <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">資金収支</h2>
-            <h3>選択ボタン</h3>
           </div>
           <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">3,479 千円</p>
-            <p class="text-gray kpi-discrption">現在の残高</p>
+            <p class="text-gray kpi-highlight"><%= @b_last_balance.div(1000).to_s(:delimited) %> 千円</p>
+            <p class="text-gray kpi-discrption">現在の銀行残高 (同期口座)</p>
           </div>
           <div class="kpi-graph">
-            <div id="tester"></div>
+            <div id="cashflow"></div>
           </div>
         </div>
       </div>
@@ -26,16 +22,15 @@
         <div class="kpi-card-2">
           <div class="kpi-title">
             <h2 class="text-gray">未決済内訳</h2>
-            <h3>期間の選択</h3>
           </div>
           <div class="kpi-discrption text-gray">
-            <p>1,289千円の未収</p>
+            <p><%= @unsettled_in.div(1000).to_s(:delimited) %> 千円の未収</p>
           </div>
           <div class="kpi-graph-2">
              <div id="receivable_chart"></div>
           </div>
           <div class="kpi-discrption text-gray">
-            <p>1,543千円の未払</p>
+            <p><%= @unsettled_pay.div(1000).to_s(:delimited) %> 千円の未払</p>
           </div>
           <div class="kpi-graph">
             <div id="payable_chart"></div>
@@ -49,27 +44,31 @@
           </div>
           <div class="text-gray">
             <h2>銀行</h2>
-            <table>
+            <table class="wallet_table">
               <tr>
                 <td>同期口座の残高合計　　　</td>
-                <td>6,530千円</td>
+                <td><%= @b_last_balance.div(1000).to_s(:delimited) %>　</td>
+                <td>千円</td>
               </tr>
               <tr>
                 <td>freee上の帳簿残高　　　</td>
-                <td>6,746千円</td>
+                <td><%= @b_walletable_balance.div(1000).to_s(:delimited) %>　</td>
+                <td>千円</td>
               </tr>
             </table>
           </div>
           <div class="kpi-graph text-gray">
             <h2>クレジットカード</h2>
-            <table>
+            <table class="wallet_table">
               <tr>
                 <td>同期口座の残高合計　　　</td>
-                <td>2,499千円</td>
+                <td><%= @c_last_balance.div(1000).to_s(:delimited) %>　</td>
+                <td>千円</td>
               </tr>
               <tr>
                 <td>freee上の帳簿残高　　　</td>
-                <td>2,499千円</td>
+                <td><%= @c_walletable_balance.div(1000).to_s(:delimited) %>　</td>
+                <td>千円</td>
               </tr>
             </table>
           </div>
@@ -82,10 +81,10 @@
         <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">営業損益</h2>
-            <h3>期間の選択</h3>
           </div>
           <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">▲12,459千円</p>
+            <p class="text-gray kpi-highlight"><%= @sign %> <%= @op_transition_prev_1month_abs.div(1000).to_s(:delimited) %> 千円</p>
+            <p class="text-gray kpi-discrption">先月の営業損益</p>
           </div>
           <div class="kpi-graph-1">
             <div id="operating_profit_chart"></div>
@@ -95,11 +94,11 @@
       <div class="col-md-4">
         <div class="kpi-card-1">
           <div class="kpi-title">
-            <h2 class="text-gray">収益</h2>
-            <h3>期間の選択</h3>
+            <h2 class="text-gray">収益 (売上高)</h2>
           </div>
             <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">6,459 千円</p>
+            <p class="text-gray kpi-highlight"><%= @rev_transition_prev_1month.div(1000).to_s(:delimited) %> 千円</p>
+            <p class="text-gray kpi-discrption">先月の収益合計額</p>
           </div>
           <div class="kpi-graph-1">
             <div id="revenue_chart"></div>
@@ -109,11 +108,11 @@
       <div class="col-md-4">
         <div class="kpi-card-1">
           <div class="kpi-title">
-            <h2 class="text-gray">費用</h2>
-            <h3>期間の選択</h3>
+            <h2 class="text-gray">経費 (原価を除く)</h2>
           </div>
             <div class="kpi-summary">
-            <p class="text-gray kpi-highlight">18,000 千円</p>
+            <p class="text-gray kpi-highlight"><%= @cost_transition_prev_1month.div(1000).to_s(:delimited) %> 千円</p>
+            <p class="text-gray kpi-discrption">先月の経費合計額</p>
           </div>
           <div class="kpi-graph-1">
             <div id="cost_chart"></div>
@@ -121,76 +120,73 @@
         </div>
       </div>
     </div>
-    <div>
-      <a id="modal-open" class="modal-btn">+</a>
-    </div>
-
   </div>
 
+  <%= render partial: "boards/index-footer" %>
 
     <script>
-	            TESTER = document.getElementById('tester');
-	            var xValue = ['10月', '11月', '12月','1月'];
-	            var y1Value = [20, 14, 23, 25];
-	            var y2Value = [12, 18, 29, 18];
-	            var trace1 = {
-                x: xValue,
-                y: y1Value,
-                name: '収入',
-                type: 'bar',
-                text: y1Value.map(String),
-                textposition: 'auto',
-                hoverinfo: 'none',
-                marker: {
-                  color: 'rgba(170, 200, 255, 1)'
-                }
-                };
+      CASHFLOW = document.getElementById('cashflow');
+      var xValue = ["<%= @tsukimae_3.to_i() %>月", "<%= @tsukimae_2.to_i() %>月", "<%= @tsukimae_1.to_i() %>月", "<%= @kongetsu.to_i() %>月"];
+      var y1Value = [12<%#= @cash_inflow_3prev_month %>, 22<%#= @cash_inflow_2prev_month %>, 34<%#= @cash_inflow_prev_month %>, 26<%#= @cash_inflow_this_month %>];
+      var y2Value = [18<%#= @cash_outflow_3prev_month %>, 34<%#= @cash_outflow_2prev_month %>, 22<%#= @cash_outflow_prev_month %>, 39<%#= @cash_outflow_this_month %>];
+      var trace1 = {
+        x: xValue,
+        y: y1Value,
+        name: '収入',
+        type: 'bar',
+        text: y1Value.map(String),
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgba(170, 200, 255, 1)'
+        }
+        };
 
-              var trace2 = {
-                x: xValue,
-                y: y2Value,
-                name: '支出',
-                type: 'bar',
-                text: y2Value.map(String),
-                textposition: 'auto',
-                hoverinfo: 'none',
-                marker: {
-                  color: 'rgba(255, 184, 162, 1)'
-                }
-                };
+      var trace2 = {
+        x: xValue,
+        y: y2Value,
+        name: '支出',
+        type: 'bar',
+        text: y2Value.map(String),
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgba(255, 184, 162, 1)'
+        }
+        };
 
-              var data = [trace1, trace2];
-              var layout = {
-                barmode: 'group',
-                legend: {
-                  x: 0.5,
-                  xanchor: 'center',
-                  y: -0.4,
-                  yanchor: 'bottom',
-                  orientation: 'h',
-                  font: {
-                    size: 10
-                  },
-                  itemclick: 'toggleothers'
-                },
-                margin: {
-                  b: 0,
-                  l: 20,
-                  r: 0,
-                  t: 10
-                },
-                height: 175
-              };
-              var config = {
-                responsive: true,
-                displayModeBar: false
-              };
-              Plotly.newPlot('tester', data, layout, config);
+      var data = [trace1, trace2];
+      var layout = {
+        barmode: 'group',
+        legend: {
+          x: 0.5,
+          xanchor: 'center',
+          y: -0.4,
+          yanchor: 'bottom',
+          orientation: 'h',
+          font: {
+            size: 10
+          },
+          itemclick: 'toggleothers'
+        },
+        margin: {
+          b: 0,
+          l: 20,
+          r: 0,
+          t: 10
+        },
+        height: 175
+      };
+      var config = {
+        responsive: true,
+        displayModeBar: false
+      };
+      Plotly.newPlot('cashflow', data, layout, config);
     </script>
     <script>
       RECIEVABLE_CHART = document.getElementById('receivable_chart');
-      var x1Value = [10];
-      var x2Value = [1279];
+      var x1Value = [<%= @unsettled_in_aft_due %>];
+      var x2Value = [<%= @unsettled_in_bef_due %>];
       var yValue = [''];
       var trace1 = {
         x: x1Value,
@@ -254,9 +250,9 @@
       Plotly.newPlot('receivable_chart', data, layout, config)
     </script>
     <script>
-      RECIEVABLE_CHART = document.getElementById('payable_chart');
-      var x1Value = [543];
-      var x2Value = [1000];
+      PAYABLE_CHART = document.getElementById('payable_chart');
+      var x1Value = [<%= @unsettled_pay_aft_due %>];
+      var x2Value = [<%= @unsettled_pay_bef_due %>];
       var yValue = [''];
       var trace1 = {
         x: x1Value,
@@ -321,8 +317,8 @@
     </script>
     <script>
       OPERATING_PROFIT_CHART = document.getElementById('operating_profit_chart');
-      var xValue = ['8月', '9月', '10月','11月','12月','1月'];
-      var yValue = [-1328, -4350, 345, 6054, -120 ,-12459];
+      var xValue = ["<%= @tsukimae_5.to_i() %>月", "<%= @tsukimae_4.to_i() %>月", "<%= @tsukimae_3.to_i() %>月", "<%= @tsukimae_2.to_i() %>月", "<%= @tsukimae_1.to_i() %>月", "<%= @kongetsu.to_i() %>月"];
+      var yValue = [<%= @op_transition_prev_5month %>, <%= @op_transition_prev_4month %>, <%= @op_transition_prev_3month %>, <%= @op_transition_prev_2month %>, <%= @op_transition_prev_1month %>, <%= @op_transition_this_month %>];
       var trace1 = {
         x: xValue,
         y: yValue,
@@ -359,9 +355,8 @@
     </script>
     <script>
       REVENUE_CHART = document.getElementById('revenue_chart');
-      var xValue = ['8月','9月','10月','11月','12月','1月'];
-      var yValue = [3323,1895,7543,8904,9732,6459];
-
+      var xValue = ["<%= @tsukimae_5.to_i() %>月", "<%= @tsukimae_4.to_i() %>月", "<%= @tsukimae_3.to_i() %>月", "<%= @tsukimae_2.to_i() %>月", "<%= @tsukimae_1.to_i() %>月", "<%= @kongetsu.to_i() %>月"];
+      var yValue = [<%= @rev_transition_prev_5month %>, <%= @rev_transition_prev_4month %>, <%= @rev_transition_prev_3month %>, <%= @rev_transition_prev_2month %>, <%= @rev_transition_prev_1month %>, <%= @rev_transition_this_month %>];
       var trace1 = {
         x: xValue,
         y: yValue,
@@ -397,9 +392,10 @@
       Plotly.newPlot('revenue_chart', data, layout, config)
     </script>
     <script>
-      var allValues = [19, 26, 55, 8, 24, 3, 4, 41];
-      var allLabels = ['売上原価', '販売手数料', '地代家賃','水道光熱費','旅費交通費','交際費','雑費','その他'];
-
+      COST_CHART = document.getElementById('cost_chart');
+      var allValues = <%= @cost_prev_1month_array_values %>;
+      var allLabels = "<%= @cost_prev_1month_array_labels %>"<%#["aaa","bbb","ccc","ddd","eee","fff","ggg","hhh"]%>;
+      console.log(allValues)
       var data = [{
         values: allValues,
         labels: allLabels,
