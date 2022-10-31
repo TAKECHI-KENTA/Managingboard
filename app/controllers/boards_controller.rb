@@ -45,8 +45,8 @@ class BoardsController < ApplicationController
     company
     
     #資金収支の取得
-    #cash_inflow この処理がめちゃんこ重い
-    #cash_outflow この処理がめちゃんこ重い
+    #cash_inflow #この処理がめちゃんこ重い
+    #cash_outflow #この処理がめちゃんこ重い
     
     #未決済残高の取得 (before=>期日前、after=>期日到来済みor期日:nil)
     unsettled_amounts_before_duedate
@@ -81,12 +81,7 @@ class BoardsController < ApplicationController
         p session['token']
         redirect_to "#{ENV['FREEE_REDIRECT_URI']}" if @code == nil
       end 
-      #redirect_to response['Location']
-      
-    
-      # TODO: 以下開発環境以外の環境が用意出来たら試す => 一応上でできているはず
       # redirect_to 'https://accounts.secure.freee.co.jp/public_api/authorize?client_id=c3f9e03b19a97d825b9f38055a418ef44b2d6dd17eaac75c3d6b8f16d0031b0d&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&response_type=code'
-
       # redirect_to  response['Location']
       # @code = response.body['code'] # response body
     end
@@ -144,7 +139,6 @@ class BoardsController < ApplicationController
     
     #companyデータの取得。元々privateにあったがその理由は何か？またapplication_controllerに置くと全てのcontrollerからアクセス可能だが問題ないか？
     def company
-      p session['token']
       #@company = nil
       uri = URI.parse('https://api.freee.co.jp/api/1/companies')
       http = Net::HTTP.new(uri.host, uri.port)
@@ -155,7 +149,6 @@ class BoardsController < ApplicationController
       res = http.request(req)
       response = JSON.parse(res.body)
       companies = response['companies']
-      p companies
       @company = companies.first
     end
     
@@ -163,7 +156,7 @@ class BoardsController < ApplicationController
     # KPIカード用のデータ取得  
       def cash_flow(term, type)
         #APIでの収入取引取得
-        company_id = @company['id']    #事業所IDの取得 paramsでもらう
+        company_id = @company['id']    #事業所IDの取得 
         uri = URI.parse("#{BASE_URL}wallet_txns?company_id=#{company_id}&walletable_type=bank_account&start_date=#{term}&end_date=#{term}&entry_side=#{type}&limit=100") 
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = uri.scheme === "https"
@@ -173,9 +166,7 @@ class BoardsController < ApplicationController
         res = http.request(req)
         response = JSON.parse(res.body) 
         cash_deals = response['wallet_txns'] 
-        
-        #取得した取引を加工して変数に代入
-        cash_flow_amount = cash_deals.sum{ |hash| hash['amount'] }
+        cash_flow_amount = cash_deals.sum{ |hash| hash['amount'] } #取得した取引から金額を合計する
       end 
     
       def cash_inflow
@@ -401,6 +392,4 @@ class BoardsController < ApplicationController
         #end
         @cost_prev_1month_array_labels = cost_label_ary
       end
-      
-      
 end

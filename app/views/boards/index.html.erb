@@ -9,14 +9,13 @@
         <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">資金収支</h2>
-            <h3>選択ボタン</h3>
           </div>
           <div class="kpi-summary">
             <p class="text-gray kpi-highlight"><%= @b_last_balance.div(1000).to_s(:delimited) %> 千円</p>
             <p class="text-gray kpi-discrption">現在の銀行残高 (同期口座)</p>
           </div>
           <div class="kpi-graph">
-            <div id="tester"></div>
+            <div id="cashflow"></div>
           </div>
         </div>
       </div>
@@ -24,7 +23,6 @@
         <div class="kpi-card-2">
           <div class="kpi-title">
             <h2 class="text-gray">未決済内訳</h2>
-            <h3>期間の選択</h3>
           </div>
           <div class="kpi-discrption text-gray">
             <p><%= @unsettled_in.div(1000).to_s(:delimited) %> 千円の未収</p>
@@ -84,7 +82,6 @@
         <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">営業損益</h2>
-            <h3>期間の選択</h3>
           </div>
           <div class="kpi-summary">
             <p class="text-gray kpi-highlight"><%= @sign %> <%= @op_transition_prev_1month_abs.div(1000).to_s(:delimited) %> 千円</p>
@@ -99,7 +96,6 @@
         <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">収益 (売上高)</h2>
-            <h3>期間の選択</h3>
           </div>
             <div class="kpi-summary">
             <p class="text-gray kpi-highlight"><%= @rev_transition_prev_1month.div(1000).to_s(:delimited) %> 千円</p>
@@ -114,7 +110,6 @@
         <div class="kpi-card-1">
           <div class="kpi-title">
             <h2 class="text-gray">経費 (原価を除く)</h2>
-            <h3>期間の選択</h3>
           </div>
             <div class="kpi-summary">
             <p class="text-gray kpi-highlight"><%= @cost_transition_prev_1month.div(1000).to_s(:delimited) %> 千円</p>
@@ -129,13 +124,12 @@
   </div>
   
   <%= render partial: "boards/index-footer" %>
-  <%= @cost_prev_1month_array_labels %>
-  
+
     <script>
-      TESTER = document.getElementById('tester');
+      CASHFLOW = document.getElementById('cashflow');
       var xValue = ["<%= @tsukimae_3.to_i() %>月", "<%= @tsukimae_2.to_i() %>月", "<%= @tsukimae_1.to_i() %>月", "<%= @kongetsu.to_i() %>月"];
-      var y1Value = [12<%#= @cash_inflow_3prev_month.to_s(:delimited) %>, 22<%#= @cash_inflow_2prev_month.to_s(:delimited) %>, 34<%#= @cash_inflow_prev_month.to_s(:delimited) %>, 26<%#= @cash_inflow_this_month.to_s(:delimited) %>];
-      var y2Value = [18<%#= @cash_outflow_3prev_month.to_s(:delimited) %>, 34<%#= @cash_outflow_2prev_month.to_s(:delimited) %>, 22<%#= @cash_outflow_prev_month.to_s(:delimited) %>, 39<%#= @cash_outflow_this_month.to_s(:delimited) %>];
+      var y1Value = [12<%#= @cash_inflow_3prev_month %>, 22<%#= @cash_inflow_2prev_month %>, 34<%#= @cash_inflow_prev_month %>, 26<%#= @cash_inflow_this_month %>];
+      var y2Value = [18<%#= @cash_outflow_3prev_month %>, 34<%#= @cash_outflow_2prev_month %>, 22<%#= @cash_outflow_prev_month %>, 39<%#= @cash_outflow_this_month %>];
       var trace1 = {
         x: xValue,
         y: y1Value,
@@ -188,12 +182,12 @@
         responsive: true,
         displayModeBar: false
       };
-      Plotly.newPlot('tester', data, layout, config);
+      Plotly.newPlot('cashflow', data, layout, config);
     </script>
     <script>
       RECIEVABLE_CHART = document.getElementById('receivable_chart');
-      var x1Value = [<%= @unsettled_in_aft_due.to_s(:delimited) %>];
-      var x2Value = [<%= @unsettled_in_bef_due.to_s(:delimited) %>];
+      var x1Value = [<%= @unsettled_in_aft_due %>];
+      var x2Value = [<%= @unsettled_in_bef_due %>];
       var yValue = [''];
       var trace1 = {
         x: x1Value,
@@ -258,8 +252,8 @@
     </script>
     <script>
       PAYABLE_CHART = document.getElementById('payable_chart');
-      var x1Value = [<%= @unsettled_pay_aft_due.to_s(:delimited) %>];
-      var x2Value = [<%= @unsettled_pay_bef_due.to_s(:delimited) %>];
+      var x1Value = [<%= @unsettled_pay_aft_due %>];
+      var x2Value = [<%= @unsettled_pay_bef_due %>];
       var yValue = [''];
       var trace1 = {
         x: x1Value,
@@ -325,7 +319,7 @@
     <script>
       OPERATING_PROFIT_CHART = document.getElementById('operating_profit_chart');
       var xValue = ["<%= @tsukimae_5.to_i() %>月", "<%= @tsukimae_4.to_i() %>月", "<%= @tsukimae_3.to_i() %>月", "<%= @tsukimae_2.to_i() %>月", "<%= @tsukimae_1.to_i() %>月", "<%= @kongetsu.to_i() %>月"];
-      var yValue = [<%= @op_transition_prev_5month.to_s(:delimited) %>, <%= @op_transition_prev_4month.to_s(:delimited) %>, <%= @op_transition_prev_3month.to_s(:delimited) %>, <%= @op_transition_prev_2month.to_s(:delimited) %>, <%= @op_transition_prev_1month.to_s(:delimited) %>, <%= @op_transition_this_month.to_s(:delimited) %>];
+      var yValue = [<%= @op_transition_prev_5month %>, <%= @op_transition_prev_4month %>, <%= @op_transition_prev_3month %>, <%= @op_transition_prev_2month %>, <%= @op_transition_prev_1month %>, <%= @op_transition_this_month %>];
       var trace1 = {
         x: xValue,
         y: yValue,
@@ -363,7 +357,7 @@
     <script>
       REVENUE_CHART = document.getElementById('revenue_chart');
       var xValue = ["<%= @tsukimae_5.to_i() %>月", "<%= @tsukimae_4.to_i() %>月", "<%= @tsukimae_3.to_i() %>月", "<%= @tsukimae_2.to_i() %>月", "<%= @tsukimae_1.to_i() %>月", "<%= @kongetsu.to_i() %>月"];
-      var yValue = [<%= @rev_transition_prev_5month.to_s(:delimited) %>, <%= @rev_transition_prev_4month.to_s(:delimited) %>, <%= @rev_transition_prev_3month.to_s(:delimited) %>, <%= @rev_transition_prev_2month.to_s(:delimited) %>, <%= @rev_transition_prev_1month.to_s(:delimited) %>, <%= @rev_transition_this_month.to_s(:delimited) %>];
+      var yValue = [<%= @rev_transition_prev_5month %>, <%= @rev_transition_prev_4month %>, <%= @rev_transition_prev_3month %>, <%= @rev_transition_prev_2month %>, <%= @rev_transition_prev_1month %>, <%= @rev_transition_this_month %>];
       var trace1 = {
         x: xValue,
         y: yValue,

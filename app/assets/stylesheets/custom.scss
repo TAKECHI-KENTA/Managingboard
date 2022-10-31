@@ -27,6 +27,10 @@
   }
 }
 
+ul.nav.navbar-nav.navbar-right {
+    display: flex;
+}
+
 .btn {
   background-color: #285ac8;
   color: #ffffff;
@@ -81,7 +85,7 @@
   }
   .kpi-discrption {
     font-size: 16px;
-    margin: 10px 0 0 0;
+    margin: 13px 0 0 0;
     padding: 0px;
   }
   .kpi-graph-2 {
@@ -171,7 +175,7 @@ h3 {
 
 .wallet_table {
   font-size: 16px;
-  width: 20px;
+  height: 45px;
 }
 
 hr {
@@ -217,6 +221,12 @@ td {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  
+  .title-logo {
+    text-align: center;
+    padding-top: 30px;
+    font-size: x-large;
+  }
 
   .users-new-container {
     padding-top: 30px;

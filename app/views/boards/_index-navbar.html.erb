@@ -24,11 +24,18 @@
             <a class="nav-link" href="#">問い合わせ(準備中)</a>
           </li>
         </ul>
-        <form class="navbar-form navbar-right">
-          <btn class="btn">
-            <%= link_to '今日のメモ', boards_index_path, onclick: "window.open('../comments/new', '_blank', 'popup=yes')", class: "open-window" %>
-          </btn>
-        </form>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="nav-item">
+            <%= link_to logout_path, method: :delete do %>
+                <p>ログアウト</p>
+            <% end %>
+          </li>
+          <form class="nav-item navbar-form">
+            <btn class="btn">
+              <%= link_to '今日のメモ', boards_index_path, onclick: "window.open('../comments/new', '_blank', 'popup=yes')", class: "open-window" %>
+            </btn>
+          </form>
+        </ul>
       </div>
     </div>
   </nav>
