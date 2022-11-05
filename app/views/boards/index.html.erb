@@ -1,5 +1,4 @@
 <div class="index-wrapper">
- 
   <%#= render partial: "boards/index-navbar", locals: { company:@company } %>
   <%= render partial: "boards/index-navbar" %>
   <div class="container card-conatainer">
@@ -120,9 +119,9 @@
           </div>
         </div>
       </div>
-    </div> 
+    </div>
   </div>
-  
+
   <%= render partial: "boards/index-footer" %>
 
     <script>
@@ -346,12 +345,12 @@
         },
         height: 175
       };
-      
+
       var config = {
         responsive: true,
         displayModeBar: false
       };
-      
+
       Plotly.newPlot('operating_profit_chart', data, layout, config)
     </script>
     <script>
@@ -384,22 +383,31 @@
         },
         height: 175
       };
-      
+
       var config = {
         responsive: true,
         displayModeBar: false
       };
-      
+
       Plotly.newPlot('revenue_chart', data, layout, config)
     </script>
     <script>
+      function unescapeHtml(target) {
+      	if (typeof target !== 'string') return target;
+      	let patterns = { '&quot;' : '"' };
+      	return target.replace(/&quot;/g, function(match) {
+      		return patterns[match];
+      	});
+      };
       COST_CHART = document.getElementById('cost_chart');
       var allValues = <%= @cost_prev_1month_array_values %>;
-      var allLabels = "<%= @cost_prev_1month_array_labels %>"<%#["aaa","bbb","ccc","ddd","eee","fff","ggg","hhh"]%>;
+      var allLabels =  "<%= @cost_prev_1month_array_labels %>";
+      allLabels = unescapeHtml(allLabels)
       console.log(allValues)
+      console.log(allLabels)
       var data = [{
         values: allValues,
-        labels: allLabels,
+        labels: JSON.parse(allLabels),
         type: 'pie',
         textposition: 'inside',
         insidetextanchor: 'middle',
@@ -431,5 +439,5 @@
 
       Plotly.newPlot('cost_chart', data, layout, config);
     </script>
-    
-</div>  
+
+</div>

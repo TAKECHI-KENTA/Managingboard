@@ -1,7 +1,7 @@
-const tokenSchema = {
-  userID: String,
-  accessToken: String,
-  refresToken: String,
-};
-exports.tokenSchema = tokenSchema;
+// const tokenSchema = {
+//   userID: String,
+//   accessToken: String,
+//   refresToken: String,
+// };
+// exports.tokenSchema = tokenSchema;
 

@@ -10,14 +10,21 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require rails-ujs
+//= require activestorage
+//= require turbolinks
+
+//= require jquery_ujs
 
 //= require bootstrap-sprockets
 
 //= require plotly-latest.min
 
+//= require 'Front/graph.js'
+//= require 'company/getcompany.js'
+//= require 'auth/gettoken.js'
 //= require jquery
 //= require bootstrap
-//= require rails-ujs
 //= require activestorage
 //= require turbolinks
 //= require_tree .
