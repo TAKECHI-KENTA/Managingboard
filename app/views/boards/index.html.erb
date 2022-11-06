@@ -129,18 +129,18 @@
     <script>
       CASHFLOW = document.getElementById('cashflow');
       var xValue = ["<%= @tsukimae_3.to_i() %>月", "<%= @tsukimae_2.to_i() %>月", "<%= @tsukimae_1.to_i() %>月", "<%= @kongetsu.to_i() %>月"];
-      var y1Value = [12<%#= @cash_inflow_3prev_month %>, 22<%#= @cash_inflow_2prev_month %>, 34<%#= @cash_inflow_prev_month %>, 26<%#= @cash_inflow_this_month %>];
-      var y2Value = [18<%#= @cash_outflow_3prev_month %>, 34<%#= @cash_outflow_2prev_month %>, 22<%#= @cash_outflow_prev_month %>, 39<%#= @cash_outflow_this_month %>];
+      var y1Value = [<%= @cash_inflow_3prev_month %>, <%= @cash_inflow_2prev_month %>, <%= @cash_inflow_prev_month %>, <%= @cash_inflow_this_month %>];
+      var y2Value = [<%= @cash_outflow_3prev_month %>, <%= @cash_outflow_2prev_month %>, <%= @cash_outflow_prev_month %>, <%= @cash_outflow_this_month %>];
       var trace1 = {
         x: xValue,
         y: y1Value,
         name: '収入',
         type: 'bar',
-        text: y1Value.map(String),
         textposition: 'auto',
-        hoverinfo: 'none',
+        hoverinfo: 'name+x+y',
         marker: {
-          color: 'rgba(170, 200, 255, 1)'
+          color: 'rgba(170, 200, 255, 1)',
+          ticksuffix: "M"
         }
         };
 
@@ -149,11 +149,12 @@
         y: y2Value,
         name: '支出',
         type: 'bar',
-        text: y2Value.map(String),
         textposition: 'auto',
-        hoverinfo: 'none',
+        ticksuffix: "M",
+        hoverinfo: 'name+x+y',
         marker: {
-          color: 'rgba(255, 184, 162, 1)'
+          color: 'rgba(255, 184, 162, 1)',
+          ticksuffix: "M"
         }
         };
 

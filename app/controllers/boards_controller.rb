@@ -45,8 +45,8 @@ class BoardsController < ApplicationController
     company
     
     #資金収支の取得
-    #cash_inflow #この処理がめちゃんこ重い
-    #cash_outflow #この処理がめちゃんこ重い
+    cash_inflow
+    cash_outflow
     
     #未決済残高の取得 (before=>期日前、after=>期日到来済みor期日:nil)
     unsettled_amounts_before_duedate
@@ -92,7 +92,7 @@ class BoardsController < ApplicationController
           "client_id": ENV['FREEE_CLIENT_ID'],
           "client_secret": ENV['FREEE_CLIENT_SECRET'],
           "code": @code, 
-          "redirect_uri": "https://safe-journey-01929.herokuapp.com/boards/index"
+          "redirect_uri": "https://03e197b3aa7c45bb83babd68928a7687.vfs.cloud9.us-east-2.amazonaws.com/boards/index"
         }
       end
       
@@ -117,7 +117,7 @@ class BoardsController < ApplicationController
           "client_id": ENV['FREEE_CLIENT_ID'],
           "client_secret": ENV['FREEE_CLIENT_SECRET'],
           "refresh_token": session['refresh_token'],
-          "redirect_uri": "https://safe-journey-01929.herokuapp.com/boards/index"
+          "redirect_uri": "https://03e197b3aa7c45bb83babd68928a7687.vfs.cloud9.us-east-2.amazonaws.com/boards/index"
         }
       end 
         
@@ -159,9 +159,10 @@ class BoardsController < ApplicationController
       # 2回目以降は選択されたcompanies
       @company = @companies.find{ |x| x["id"] == params[:id].to_i } unless params[:id].blank?   #最初の会社表示はcompaniesの先頭にあるもの
     end
-    
-    # KPIカード用のデータ取得  
-    def cash_flow(term, type)
+
+    # KPIカード用のデータ取得
+=begin
+    def cash_flow(term, type)   #1日100取引まで対応だが、API叩きすぎて動かない
       #APIでの収入取引取得
       company_id = @company['id']    #事業所IDの取得 
       uri = URI.parse("#{BASE_URL}wallet_txns?company_id=#{company_id}&walletable_type=bank_account&start_date=#{term}&end_date=#{term}&entry_side=#{type}&limit=100") 
@@ -219,6 +220,37 @@ class BoardsController < ApplicationController
         @cash_outflow_3prev_month += cash_flow(term.strftime("%Y-%m-%d"), "expense")
       end
     end
+=end
+    def cash_flow(term, type)   #1日100取引まで対応だが、API叩きすぎて動かない
+      #APIでの収入取引取得
+      company_id = @company['id']                               #事業所IDの取得
+      term_start = term.beginning_of_month.strftime("%Y-%m-%d") #開始日の指定
+      term_end = term.end_of_month.strftime("%Y-%m-%d")         #終了日の指定
+      uri = URI.parse("#{BASE_URL}wallet_txns?company_id=#{company_id}&walletable_type=bank_account&start_date=#{term_start}&end_date=#{term_end}&entry_side=#{type}&limit=100") 
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = uri.scheme === "https"
+      headers = {"Authorization": "Bearer #{session['token']}" } 
+      req = Net::HTTP::Get.new(uri.request_uri) 
+      req.initialize_http_header(headers)
+      res = http.request(req)
+      response = JSON.parse(res.body) 
+      cash_deals = response['wallet_txns'] 
+      cash_flow_amount = cash_deals.sum{ |hash| hash['amount'] } #取得した取引から金額を合計する
+    end 
+  
+    def cash_inflow
+      @cash_inflow_this_month = cash_flow(date, "income")
+      @cash_inflow_prev_month = cash_flow(date.months_ago(1), "income")
+      @cash_inflow_2prev_month = cash_flow(date.months_ago(2), "income")
+      @cash_inflow_3prev_month = cash_flow(date.months_ago(3), "income") 
+    end
+    
+    def cash_outflow
+      @cash_outflow_this_month = cash_flow(date, "expense") 
+      @cash_outflow_prev_month = cash_flow(date.months_ago(1), "expense") 
+      @cash_outflow_2prev_month = cash_flow(date.months_ago(2), "expense") 
+      @cash_outflow_3prev_month = cash_flow(date.months_ago(3), "expense")
+    end
     
     def unsettled_amounts_before_duedate
       #変数定義
@@ -226,7 +258,6 @@ class BoardsController < ApplicationController
       @unsettled_pay_bef_due = nil
       
       #APIでの取引取得
-      p @company
       company_id = @company['id']   #事業所IDの取得
       date = Date.today                     #本日の日付
       uri = URI.parse("#{BASE_URL}deals?company_id=#{company_id}&status=unsettled&start_due_date=#{date}") #本日以降が決済期日の取引のみ取得
@@ -320,7 +351,7 @@ class BoardsController < ApplicationController
     end
   
     def trial_balance(term)
-      #APIでの収入取引取得
+      #APIでの試算表の取得
       company_id = @company['id']                               #事業所IDの取得
       term_start = term.beginning_of_month.strftime("%Y-%m-%d") #開始日の指定
       term_end = term.end_of_month.strftime("%Y-%m-%d")         #終了日の指定
