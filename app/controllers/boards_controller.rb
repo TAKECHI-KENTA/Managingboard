@@ -92,7 +92,7 @@ class BoardsController < ApplicationController
           "client_id": ENV['FREEE_CLIENT_ID'],
           "client_secret": ENV['FREEE_CLIENT_SECRET'],
           "code": @code, 
-          "redirect_uri": "https://03e197b3aa7c45bb83babd68928a7687.vfs.cloud9.us-east-2.amazonaws.com/boards/index"
+          "redirect_uri": "https://safe-journey-01929.herokuapp.com/boards/index"
         }
       end
       
@@ -117,7 +117,7 @@ class BoardsController < ApplicationController
           "client_id": ENV['FREEE_CLIENT_ID'],
           "client_secret": ENV['FREEE_CLIENT_SECRET'],
           "refresh_token": session['refresh_token'],
-          "redirect_uri": "https://03e197b3aa7c45bb83babd68928a7687.vfs.cloud9.us-east-2.amazonaws.com/boards/index"
+          "redirect_uri": "https://safe-journey-01929.herokuapp.com/boards/index"
         }
       end 
         
