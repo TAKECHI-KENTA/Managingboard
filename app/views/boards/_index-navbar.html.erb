@@ -6,18 +6,18 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span> 
         </button>
-        <p class="navbar-brand">経営ボード</p>
+        <span class="navbar-brand">経営ボード</span>
       </div>
       <div class="collapse navbar-collapse" id="board-navbar-1">
         <ul class="nav navbar-nav">
           <li class="nav-item">
             <%= link_to boards_index_path do %>
-              <p class="nav-link">ダッシュボード</p>
+              <span class="nav-link">ダッシュボード</span>
             <% end %>
           </li>
           <li class="nav-item">
             <%= link_to comments_path do %>
-              <p class="nav-link">メモ</p>
+              <span class="nav-link">メモ</span>
             <% end %>
           </li>
           <li class="nav-item">
@@ -27,14 +27,14 @@
         <ul class="nav navbar-nav navbar-right">
           <li class="nav-item">
             <%= link_to logout_path, method: :delete do %>
-                <p>ログアウト</p>
+                <span>ログアウト</span>
             <% end %>
           </li>
-          <form class="nav-item navbar-form">
+          <li class="nav-item navbar-form nav-form-left">
             <btn class="btn">
               <%= link_to '今日のメモ', boards_index_path, onclick: "window.open('../comments/new', '_blank', 'popup=yes')", class: "open-window" %>
             </btn>
-          </form>
+          </li>
         </ul>
       </div>
     </div>

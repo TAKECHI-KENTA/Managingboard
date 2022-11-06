@@ -17,7 +17,7 @@
           </div>
           <div class="comment-post">
             <% if logged_in? %>
-              <%= f.submit '投稿 (ウィンドウを自動的に閉じます)', onclick: "setTimeout(function(){window.close();},1000)", class: 'btn window-close' %> <%# ウィンドウクローズしか行われない。これとsee more%>
+              <%= f.submit '投稿 (ウィンドウを自動的に閉じます)', onclick: "setTimeout(function(){window.close();},1000)", class: 'btn window-close' %> 
             <% end %>
           </div>
         <% end %>

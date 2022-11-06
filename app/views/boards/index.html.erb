@@ -1,9 +1,10 @@
 <div class="index-wrapper">
- 
-  <%#= render partial: "boards/index-navbar", locals: { company:@company } %>
   <%= render partial: "boards/index-navbar" %>
   <div class="container card-conatainer">
-    <h1><%= @company['display_name'] %>
+    <%= form_with url: boards_index_path, method: :get, local: true, id: 'company-selection'  do |f| %>
+      <%= f.select(:id, @companies_hash, {selected: @company['id']}, {id: 'select', class: 'form-control-select form-control large-text'}) %> 
+      <% f.submit '会社変更', class: 'btn btn-default' %>
+    <% end %>
     <div class="row">
       <div class="col-md-4">
         <div class="kpi-card-1">
@@ -186,8 +187,8 @@
     </script>
     <script>
       RECIEVABLE_CHART = document.getElementById('receivable_chart');
-      var x1Value = [<%= @unsettled_in_aft_due %>];
-      var x2Value = [<%= @unsettled_in_bef_due %>];
+      var x1Value = [<%= @unsettled_in_aft_due.div(1000) %>];
+      var x2Value = [<%= @unsettled_in_bef_due.div(1000) %>];
       var yValue = [''];
       var trace1 = {
         x: x1Value,
@@ -252,8 +253,8 @@
     </script>
     <script>
       PAYABLE_CHART = document.getElementById('payable_chart');
-      var x1Value = [<%= @unsettled_pay_aft_due %>];
-      var x2Value = [<%= @unsettled_pay_bef_due %>];
+      var x1Value = [<%= @unsettled_pay_aft_due.div(1000) %>];
+      var x2Value = [<%= @unsettled_pay_bef_due.div(1000) %>];
       var yValue = [''];
       var trace1 = {
         x: x1Value,

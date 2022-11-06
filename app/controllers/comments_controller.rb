@@ -2,7 +2,7 @@ require 'csv'
 
 class CommentsController < ApplicationController
   def index
-    @comments = Comment.preload(:tention).all
+    @comments = current_user.comments.preload(:tention).all
     respond_to do |format|
       format.html
       format.csv do |csv|
