@@ -394,13 +394,20 @@
       Plotly.newPlot('revenue_chart', data, layout, config)
     </script>
     <script>
+      function unescapeHtml(target) {
+      	if (typeof target !== 'string') return target;
+      	let patterns = { '&quot;' : '"' };
+      	return target.replace(/&quot;/g, function(match) {
+      		return patterns[match];
+      	});
+      };
       COST_CHART = document.getElementById('cost_chart');
       var allValues = <%= @cost_prev_1month_array_values %>;
-      var allLabels = "<%= @cost_prev_1month_array_labels %>"<%#["aaa","bbb","ccc","ddd","eee","fff","ggg","hhh"]%>;
-      console.log(allValues)
+      var allLabels = "<%= @cost_prev_1month_array_labels %>";
+      allLabels = unescapeHtml(allLabels)
       var data = [{
         values: allValues,
-        labels: allLabels,
+        labels: JSON.parse(allLabels),
         type: 'pie',
         textposition: 'inside',
         insidetextanchor: 'middle',
